@@ -1,18 +1,29 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; 
 import InfoBox from "./InfoBox";
 import TypingAnimation from "./TypingAnimation";
 
 export default function ChatScreen() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(""); 
+  const [userMessages, setUserMessages] = useState<string[]>([]);
 
+  function addUserMessage() {
+    if (message.trim() !== "") {
+      setUserMessages([...userMessages, message]); 
+      setMessage(""); 
+    }
+  }
+  
   return (
     <View style={styles.container}>
-
-
       <InfoBox/>
-      <TypingAnimation txt={"Geofencing é legale"}/>
+      
+      {userMessages.map((msg, id) => (
+        <View key={id}>
+          <TypingAnimation txt={msg} />
+        </View>
+      ))}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -20,9 +31,12 @@ export default function ChatScreen() {
           placeholder="Digite a sua mensagem"
           placeholderTextColor="#aaa"
           value={message}
-          onChangeText={setMessage}
+          onChangeText={setMessage} 
         />
-        <TouchableOpacity   style={[styles.sendButton, { backgroundColor: message ? "#1d966e" : "#3bd4a1" }]}  onPress={() => alert("Mensagem enviada!")}>
+        <TouchableOpacity 
+          style={[styles.sendButton, { backgroundColor: message ? "#1d966e" : "#3bd4a1" }]}  
+          onPress={addUserMessage}
+        >
           <Ionicons name="send" size={20} color="white" />
         </TouchableOpacity>
       </View>
@@ -34,16 +48,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F7F7F7",
-    height:"100%",
     justifyContent: "space-between",
     paddingBottom: 20,
   },
-  header: {
-    padding: 10,
-    alignItems: "center",
-  },
-
-  
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -57,7 +64,6 @@ const styles = StyleSheet.create({
     height: 45,
     fontSize: 16,
     color: "#333",
-
   },
   sendButton: {
     backgroundColor: "#6FCF97",

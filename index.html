@@ -1,0 +1,3804 @@
+<html lang="en"><script>var pmblock = 1.4;</script><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/arquivos/static/global/css/fontawesome.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
+    <style>
+        body{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      #conteudo{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+      aside{
+        width: 330px;
+        height: 100%;
+      }
+      section{
+        width: 100%;
+        min-height: 200%;
+        height: fit-content;
+      }
+      @media only screen and (max-width: 1000px) {
+        aside{
+          display: none !important;
+        }
+      }
+    </style>
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="/arquivos/static/global/css/global.css">
+    
+    </head><body cz-shortcut-listen="true"><div id="loading" style="animation: 1s linear forwards fadeinout2;" class="esconder"><img id="loading2" src="/arquivos/static/core/img/loading.png " style="animation: 1s linear infinite rotation, 1s linear forwards fadeinout;" class="esconder"></div>
+    
+    
+    <style>
+        #sair:hover{
+            text-decoration: underline;
+        }
+    </style>
+    <link href="/arquivos/static/core/css/header.css" rel="stylesheet">
+    <header>
+        <img id="logo" src="/arquivos/static/core/img/logo_black.svg" style="cursor: pointer;">
+        <div>
+            <div>
+                <p>admin</p>
+                <p class="logout" id="sair" style="cursor: pointer;" onclick="$('#logout').submit()">Sair</p>
+                <form id="logout" action="/core/logout" method="POST" style="display: none;"></form>
+            </div>
+            <img id="profile" src="/arquivos/static/core/img/profile.svg">
+        </div>
+    </header>
+    
+    <script>
+    
+        function delete_cookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            console.log('deleted')
+        }
+    
+        var logoutLabel = document.querySelector('.logout');
+    
+        logoutLabel.addEventListener('click', function() {
+            delete_cookie('sessionid');
+        });
+    
+        $("#logo").on("click", function() {
+            window.location.replace("/core");
+        })
+    </script>
+    <div id="conteudo">
+      
+    <style>
+        #version:hover {
+            text-decoration: underline;
+        }
+    
+        /* Cores do status */
+        .menu-item.status-1:hover { border-left-color: var(--vermelho); }
+        .menu-item.status-2:hover { border-left-color: var(--amarelo); }
+        .menu-item.status-3:hover { border-left-color: var(--cinza); }
+    
+        .menu-item.status-1.ativo { border-left-color: var(--vermelho) !important; }
+        .menu-item.status-2.ativo { border-left-color: var(--amarelo) !important; }
+        .menu-item.status-3.ativo { border-left-color: var(--verde) !important; }
+    </style>
+    
+    <link href="/arquivos/static/core/css/menu.css" rel="stylesheet">
+    
+    <aside>
+        <ul>
+            
+                
+                    <li class="titulo" onclick="$('.titulo.ativo').removeClass('ativo');$(this).addClass('ativo')">
+                
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21.818" height="21.818" viewBox="0 0 21.818 21.818">
+      <g id="Icon" transform="translate(0.909 0.909)">
+        <g id="Icon-2" data-name="Icon" transform="translate(-1.819 20.001) rotate(-90)">
+          <rect id="Area" width="20" height="20" transform="translate(0 2)" fill="none" opacity="0"></rect>
+          <g id="Icon-3" data-name="Icon" transform="translate(1.29 0.499)">
+            <circle id="b4b86562-5cf4-46c6-a7ac-8496066de030" cx="2.727" cy="2.727" r="2.727" transform="translate(5.984 8.593)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.818"></circle>
+            <path id="a589bdc9-8175-4358-ab78-dba2f35fd3fb" d="M17.636,13.636a1.5,1.5,0,0,0,.3,1.655l.055.054a1.819,1.819,0,1,1-2.573,2.573l-.054-.054A1.512,1.512,0,0,0,12.8,18.936v.155a1.818,1.818,0,1,1-3.636,0v-.082a1.5,1.5,0,0,0-.982-1.373,1.5,1.5,0,0,0-1.655.3l-.054.055A1.819,1.819,0,1,1,3.9,15.418l.055-.054A1.512,1.512,0,0,0,2.882,12.8H2.727a1.818,1.818,0,0,1,0-3.636h.082a1.5,1.5,0,0,0,1.373-.982,1.5,1.5,0,0,0-.3-1.655l-.055-.054A1.819,1.819,0,1,1,6.4,3.9l.055.055a1.5,1.5,0,0,0,1.654.3h.073a1.5,1.5,0,0,0,.909-1.373V2.727a1.818,1.818,0,0,1,3.636,0v.082a1.512,1.512,0,0,0,2.564,1.073l.054-.055A1.819,1.819,0,1,1,17.918,6.4l-.054.055a1.5,1.5,0,0,0-.3,1.654v.073a1.5,1.5,0,0,0,1.372.909h.155a1.818,1.818,0,1,1,0,3.636h-.082A1.5,1.5,0,0,0,17.636,13.636Z" transform="translate(-2.198 0.411)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.818"></path>
+          </g>
+        </g>
+      </g>
+    </svg>
+    
+                    </div>
+                    Pós-venda
+                </li>
+                <ul>
+                
+                    
+                        <li id="cartaopresente" class="menu-item status-3" onclick="window.location.href='cartaopresente'">
+                            Cartão Presente
+                        </li>                
+                    
+                
+                    
+                        <li id="desvincular" class="menu-item status-3" onclick="window.location.href='desvincular'">
+                            Desvincular Dispositivos
+                        </li>                
+                    
+                
+                    
+                        <li id="miboCloud" class="menu-item status-2" onclick="window.location.href='miboCloud'">
+                            Mibo Cloud IOS
+                        </li>                
+                    
+                
+                    
+                        <li id="adicionarRespostasChat" class="menu-item status-3" onclick="window.location.href='adicionarRespostasChat'">
+                            Adicionar Respostas Chat
+                        </li>                
+                    
+                
+                    
+                        <li id="pesquisaGeral" class="menu-item status-3" onclick="window.location.href='pesquisaGeral'">
+                            Pesquisa de Dispositivos e Usuários
+                        </li>                
+                    
+                
+                    
+                        <li id="cupom" class="menu-item status-3" onclick="window.location.href='cupom'">
+                            Troca de IC
+                        </li>                
+                    
+                
+                    
+                        <li id="faturamento" class="menu-item status-2" onclick="window.location.href='faturamento'">
+                            Faturamento Manual
+                        </li>                
+                    
+                
+                    
+                        <li id="qrcode" class="menu-item status-3" onclick="window.location.href='qrcode'">
+                            Gerar QRCode
+                        </li>                
+                    
+                
+                    
+                        <li id="firmware" class="menu-item status-3" onclick="window.location.href='firmware'">
+                            Firmware
+                        </li>                
+                    
+                
+                    
+                        <li id="criarCartao" class="menu-item status-3" onclick="window.location.href='criarCartao'">
+                            Enviar Cartão Presente
+                        </li>                
+                    
+                
+                    
+                        <li id="criarCupom" class="menu-item status-3" onclick="window.location.href='criarCupom'">
+                            Criar Cupom
+                        </li>                
+                    
+                
+                    
+                        <li id="calculadoraSDCard" class="menu-item status-3" onclick="window.location.href='calculadoraSDCard'">
+                            Calculadora SD Card
+                        </li>                
+                    
+                
+                    
+                        <li id="bigDataPoc" class="menu-item status-3" onclick="window.location.href='bigDataPoc'">
+                            Consulta de NS por Razão Social
+                        </li>                
+                    
+                
+                    
+                        <li id="bigdataDashboard" class="menu-item status-3" onclick="window.location.href='bigdataDashboard'">
+                            Dashboard Bigdata
+                        </li>                
+                    
+                
+                </ul>
+            
+                
+                    <li class="titulo" onclick="$('.titulo.ativo').removeClass('ativo');$(this).addClass('ativo')">
+                
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20">
+      <g id="Icon" transform="translate(1 -4)">
+        <rect id="Area" width="20" height="20" transform="translate(0 4)" fill="none" opacity="0"></rect>
+        <g id="Icon-2" data-name="Icon" transform="translate(1.29 2.499)">
+          <rect id="a51c7f43-2f76-4b9f-a03b-17f7ba9b7f99" width="20" height="14" rx="2" transform="translate(-1.29 6.501)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
+          <path id="_652f144d-99ee-4da1-8a74-1a338e25f684" data-name="652f144d-99ee-4da1-8a74-1a338e25f684" d="M16,21V5a2,2,0,0,0-2-2H10A2,2,0,0,0,8,5V21" transform="translate(-3.29 -0.499)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </g>
+      </g>
+    </svg>
+    
+                    </div>
+                    Finanças
+                </li>
+                <ul>
+                
+                    
+                        <li id="painelFinanceiro" class="menu-item status-3" onclick="window.location.href='painelFinanceiro'">
+                            Painel Financeiro
+                        </li>                
+                    
+                
+                    
+                        <li id="tributario" class="menu-item status-3" onclick="window.location.href='tributario'">
+                            Tributário
+                        </li>                
+                    
+                
+                    
+                        <li id="atualizarValores" class="menu-item status-3" onclick="window.location.href='atualizarValores'">
+                            Alterar preços
+                        </li>                
+                    
+                
+                </ul>
+            
+                
+                    <li class="titulo ativo" onclick="$('.titulo.ativo').removeClass('ativo');$(this).addClass('ativo')">
+                
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+      <g id="Icon" transform="translate(1 -2)">
+        <rect id="Area" width="20" height="20" transform="translate(0 3)" fill="none" opacity="0"></rect>
+        <g id="Icon-2" data-name="Icon" transform="translate(0.29 5.499)">
+          <path id="b3246c9f-2a6c-469d-bfd8-27f218eddb3a" d="M3,9,13,2,23,9V20a2.119,2.119,0,0,1-2.222,2H5.222A2.119,2.119,0,0,1,3,20Z" transform="translate(-3.29 -4.499)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          <path id="acc60635-ea59-4261-a12e-c3714680c28a" d="M9,22V12h6V22" transform="translate(-2.29 -4.499)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </g>
+      </g>
+    </svg>
+    
+                    </div>
+                    Mibo Smart
+                </li>
+                <ul>
+                
+                    
+                        <li id="dashEzviz" class="menu-item status-3" onclick="window.location.href='dashEzviz'">
+                            Controle de Câmeras Ezviz
+                        </li>                
+                    
+                
+                    
+                        <li id="respostasChat" class="menu-item status-3" onclick="window.location.href='respostasChat'">
+                            Respostas Assistente Mibo
+                        </li>                
+                    
+                
+                    
+                        <li id="bancoPerguntasRespostas" class="menu-item ativo status-3" onclick="window.location.href='bancoPerguntasRespostas'">
+                            Banco de Respostas Chat
+                        </li>                
+                    
+                
+                    
+                        <li id="listaDispositivos" class="menu-item status-1" onclick="window.location.href='listaDispositivos'">
+                            Lista de Dispositivos
+                        </li>                
+                    
+                
+                    
+                        <li id="comparacao" class="menu-item status-1" onclick="window.location.href='comparacao'">
+                            Evolução de ativações
+                        </li>                
+                    
+                
+                    
+                        <li id="analisePushs" class="menu-item status-3" onclick="window.location.href='analisePushs'">
+                            Análise Pushs
+                        </li>                
+                    
+                
+                    
+                        <li id="linksFixos" class="menu-item status-3" onclick="window.location.href='linksFixos'">
+                            Links Fixos
+                        </li>                
+                    
+                
+                    
+                        <li id="pushContagem" class="menu-item status-3" onclick="window.location.href='pushContagem'">
+                            Detalhamento de Clicks
+                        </li>                
+                    
+                
+                    
+                        <li id="analiseNuvem" class="menu-item status-1" onclick="window.location.href='analiseNuvem'">
+                            Análise de Gravação em Nuvem
+                        </li>                
+                    
+                
+                    
+                        <li id="casaInteligente" class="menu-item status-1" onclick="window.location.href='casaInteligente'">
+                            Taxa de Casa Inteligente
+                        </li>                
+                    
+                
+                </ul>
+            
+                
+                    <li class="titulo" onclick="$('.titulo.ativo').removeClass('ativo');$(this).addClass('ativo')">
+                
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22.67" height="20" viewBox="0 0 22.67 20">
+      <g id="Icon" transform="translate(1.335)">
+        <rect id="Area" width="20" height="20" fill="none" opacity="0"></rect>
+        <g id="Icon-2" data-name="Icon" transform="translate(1.29 2.499)">
+          <path id="b567a118-657a-484c-8df8-7078646b1465" d="M4.726,11.863a10.4,10.4,0,0,1,13.31,0" transform="translate(-2.633 -4.315)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.891"></path>
+          <path id="c7e33517-fea5-4606-b6ff-0da979f88b61" d="M1.342,8.507a15.125,15.125,0,0,1,20,0" transform="translate(-2.633 -4.315)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.891"></path>
+          <path id="bddf2b8d-4933-4fe7-9bf4-3ed04245a46d" d="M8.063,15.228a5.674,5.674,0,0,1,6.57,0" transform="translate(-2.633 -4.315)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.891"></path>
+          <line id="f10d464f-a345-4c96-8772-f76e02dfd9fc" x2="0.009" transform="translate(8.71 14.59)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.891"></line>
+        </g>
+      </g>
+    </svg>
+    
+                    </div>
+                    Provedores
+                </li>
+                <ul>
+                
+                    
+                        <li id="ispAnalise" class="menu-item status-3" onclick="window.location.href='ispAnalise'">
+                            ISP Análise
+                        </li>                
+                    
+                
+                    
+                        <li id="addProvedor" class="menu-item status-3" onclick="window.location.href='addProvedor'">
+                            Adicionar Provedores
+                        </li>                
+                    
+                
+                </ul>
+            
+                
+                    <li class="titulo" onclick="$('.titulo.ativo').removeClass('ativo');$(this).addClass('ativo')">
+                
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+      <g id="Icon" transform="translate(1 -2)">
+        <rect id="Area" width="20" height="20" transform="translate(0 3)" fill="none" opacity="0"></rect>
+        <g id="Icon-2" data-name="Icon" transform="translate(1.29 5.499)">
+          <circle id="_8a666a5b-1b8e-4a8b-812c-e97561f0ff79" data-name="8a666a5b-1b8e-4a8b-812c-e97561f0ff79" cx="10" cy="10" r="10" transform="translate(-1.29 -2.499)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle>
+          <line id="_8c2c8ceb-af38-4d93-bd96-5a8c48877d97" data-name="8c2c8ceb-af38-4d93-bd96-5a8c48877d97" x2="20" transform="translate(-1.29 7.501)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+          <path id="_3a9ff86c-3803-4ff7-bd0c-2e8d2537b4e9" data-name="3a9ff86c-3803-4ff7-bd0c-2e8d2537b4e9" d="M12,2a15.3,15.3,0,0,1,4,10,15.3,15.3,0,0,1-4,10A15.3,15.3,0,0,1,8,12,15.3,15.3,0,0,1,12,2Z" transform="translate(-3.29 -4.499)" fill="none" stroke="var(--preto3)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </g>
+      </g>
+    </svg>
+    
+                    </div>
+                    Serviços
+                </li>
+                <ul>
+                
+                    
+                        <li id="addCartao" class="menu-item status-3" onclick="window.location.href='addCartao'">
+                            Adicionar cartão presente
+                        </li>                
+                    
+                
+                    
+                        <li id="statusPedidos" class="menu-item status-3" onclick="window.location.href='statusPedidos'">
+                            Status dos Pedidos
+                        </li>                
+                    
+                
+                    
+                        <li id="detalhamento" class="menu-item status-3" onclick="window.location.href='detalhamento'">
+                            Gastos mensais
+                        </li>                
+                    
+                
+                </ul>
+            
+        </ul>
+    
+        <p id="version" style="font-family: NunitoSans-SemiBoldItalic, Nunito Sans; font-size: 12pt; font-style: italic; color: var(--preto2); cursor: pointer;" onclick="window.location.href='https://open-mibo.intelbras.com.br/core/logOpenMibo'">Versão 2.2.0</p>
+    </aside>
+    
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.814.0.min.js"></script>
+    <script>
+        AWS.config.update({
+            accessKeyId: "AKIAQJPUEWAE3SVRXIK5",
+            secretAccessKey: "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",
+            region: "sa-east-1"
+        });
+    
+        const dynamoDB = new AWS.DynamoDB.DocumentClient();
+        const tabelaStatus = "Status";
+    
+        async function atualizarStatusDasPaginas() {
+            const elementos = document.querySelectorAll("li.menu-item");
+            const ids = Array.from(elementos).map(elemento => ({ id: elemento.id }));
+            
+            if (ids.length === 0) return;
+    
+            const params = {
+                RequestItems: {
+                    [tabelaStatus]: {
+                        Keys: ids
+                    }
+                }
+            };
+    
+            try {
+                const result = await dynamoDB.batchGet(params).promise();
+                if (result.Responses && result.Responses[tabelaStatus]) {
+                    result.Responses[tabelaStatus].forEach(item => {
+                        const elemento = document.getElementById(item.id);
+                        if (item.status !== undefined) {
+                            const status = item.status;
+                            elemento.classList.add(`status-${status}`);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    
+        document.addEventListener("DOMContentLoaded", atualizarStatusDasPaginas);
+    </script>
+    
+      <section id="content">
+        
+    
+    
+    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Respostas</title>
+        <style>
+            #content {
+                background-color: var(--branco3);
+                padding: 40 10 10 20;
+            }
+            
+       
+    
+            h2 {
+                color: var(--preto);
+                font-family: Roboto-Medium, Roboto;
+                font-size: 22pt;
+                margin-bottom: 30px;
+            }
+    
+            table {
+                width: 90%;
+                border-collapse: collapse;
+                margin-top: 30px;
+                background-color: #fff !important;
+    
+            }
+    
+           th {
+             padding-bottom: 10px;
+             border: 1px solid var(--branco2);
+    
+           }
+    
+            form{
+                width: 50%;
+    
+            }
+            th,
+            td {
+                padding: 16px;
+                text-align: center;
+             border: 1px solid var(--branco2);
+    
+            }
+    
+           
+    
+            th {
+                background-color: #ffff;
+                border: 1px solid var(--branco2);
+            }
+    
+            tr:nth-child(even) {
+                background-color: #ffff;
+                border: 1px solid var(--branco2);
+            }
+    
+            tr:hover {
+                background-color: #f1f1f153;
+            }
+    
+            button {
+                display: block;
+                margin: 20px auto;
+                padding: 10px 20px;
+                background-color: var(--verde);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: 100ms linear;
+                font-size: 16px;
+            }
+    
+            button:hover {
+                background-color: var(--verde2);
+                transition: 100ms linear;
+            }
+    
+    
+        .checkbox-container {
+            display: flex;
+            gap: 20px;
+            border-radius: 16px;
+            }
+    
+        .ios-checkbox {
+        --checkbox-size: 28px;
+        --checkbox-color: #3b82f6;
+        --checkbox-bg: #dbeafe;
+        --checkbox-border: #93c5fd;
+    
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        border: 0 !important;
+    
+        }
+    
+        .ios-checkbox input {
+        display: none;
+        }
+    
+        .checkbox-wrapper {
+        position: relative;
+        width: var(--checkbox-size);
+        height: var(--checkbox-size);
+        border-radius: 8px;
+        transition: transform 0.2s ease;
+        border: 0 !important;
+        padding: 24px;
+        margin-left: 10px;
+    
+        }
+    
+        .checkbox-bg {
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        border: 2px solid var(--checkbox-border);
+        background: white;
+        transition: all 0.2s ease;
+        }
+    
+        .checkbox-icon {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 50%;
+        height: 50%;
+        color: white;
+        transform: scale(0);
+        transition: all 0.2s ease;
+        }
+    
+        .check-path {
+        stroke-dasharray: 40;
+        stroke-dashoffset: 40;
+        transition: stroke-dashoffset 0.3s ease 0.1s;
+        }
+    
+        .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+        background: var(--verde);
+        border-color: var(--verde2);
+        }
+    
+        .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg:hover {
+            background-color: #08985f;
+             
+        }
+    
+        .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+        transform: scale(1);
+        }
+    
+        .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+        stroke-dashoffset: 0;
+        }
+    
+    
+        .ios-checkbox:active .checkbox-wrapper {
+        transform: scale(0.95);
+        }
+    
+        .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+        box-shadow: 0 0 0 4px var(--checkbox-bg);
+        }
+    
+        .ios-checkbox.green {
+        --checkbox-color:  var(--verde2);
+        --checkbox-bg: #d1fae5;
+        --checkbox-border: var(--verde);
+        margin-top: 6px;
+        }
+    
+        @keyframes bounce {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        }
+    
+        .ios-checkbox input:checked + .checkbox-wrapper {
+        animation: bounce 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    
+        .tdCenter { 
+            margin: auto;
+            text-align: center;
+            border: 0 !important;
+     
+        }
+    
+        .downloadVerificadasFileBtn {
+            margin: 0 !important;
+            margin-left: auto;
+            padding: 10px;
+        }
+    
+        input,select {
+            border: 1px solid rgba(0,0,0,.12) !important;
+            background:#fff !important;
+        }
+    
+        select {
+            width: 100%;
+            height: 48px;
+            border-radius: 5px;
+            border-style: solid;
+            background-color: transparent;
+            font-family: Roboto-Regular, Roboto;
+            padding-left: 20px;
+            border: solid 1px #B1B9BA;
+            font-family: Arial, Helvetica, sans-serif;
+            -webkit-appearance: none; 
+                -moz-appearance: none;    
+                appearance: none;         
+                background: #fff !important; 
+                padding-right: 48px !important;     
+                background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCE7By6bK6ltZUs6Aql3-3LvnUBjxRJfT8_g&s') !important;
+                background-repeat: no-repeat !important;
+                background-position: right center !important;
+                background-size: 48px !important;
+        }
+    
+        select:hover {
+            border: solid 1px #163134;
+        }
+    
+        #btns{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin: 0 0 30px;
+            margin-top: 35px;
+            width: 30% !important;
+        }
+        #btns p{ 
+            margin-bottom: 10px;
+        }
+    
+        .reversed {
+            display: flex;
+            flex-direction: column-reverse; 
+        }
+        
+        span{
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #f0f0f0;
+            transition: 100ms linear all;
+            border-radius: 5px;
+        }
+    
+        .spanPaginasWrapper span.active:hover {
+            background-color: var(--verde2);
+            transition: 100ms linear all;
+        }
+        .spanPaginasWrapper span:hover {
+            background-color: #8080802d;
+            transition: 100ms linear all;
+        }
+    
+        .active{
+            color: #fff;
+            background-color: #00B26B;
+        }
+    
+    
+        .svgRemove,.svgUpdate {
+             width: 20px;
+             height: 20px;
+        }
+    
+        .removeBtn {
+             background-color: #d84f4f1a;
+             padding: 15px;
+    
+        }
+        
+        .removeBtn:hover {
+            background-color: #d84f4f2f;
+        }
+    
+        .removeBtn svg {
+            color: #d84f4fe6;
+            stroke-width: 2px;
+        }
+    
+        .svgRemove {
+             width: 20px;
+             height: 20px;
+        }
+        .updateBtn {
+             background-color: #616c7818;
+             padding: 15px;
+        }
+        .updateBtn:hover {
+            background-color: #616c7837;
+        }
+    
+        .updateBtn svg {
+            color: #616c78 !important;
+        }
+    
+    
+    
+        #content{
+                background-color: var(--branco3);
+            }
+            .form {
+                background-color: var(--branco3);
+                border-radius: 10px;
+                padding: 20px;
+                width: 30% !important;
+            }
+    
+            h2 {
+                color: var(--preto);
+                font-family: Roboto-Medium, Roboto;
+                font-size: 22pt;
+                margin-bottom: 30px;
+            }
+    
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+    
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid gray;
+                border-radius: 2px;
+                font-size: 14px;
+            }
+    
+            .submit-button {
+                background-color: rgba(128, 128, 128, 0.5); 
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                width: 20%;
+                transition: background-color 0.2s ease-in-out;
+            }
+           
+            textarea{
+                width: 100%;
+                border: 1px solid #8080808f;
+            }
+    
+            input,select,textarea {
+                border: 1px solid rgba(0,0,0,.12) !important;
+                background-color: #fff !important;
+                color:black;
+                padding: 12px;
+                border-radius: 4px;
+            }
+    
+            textarea:focus {
+                 outline: 1px solid var(--verde);
+            }
+    
+            #content{
+                background-color: var(--branco3);
+            }
+            .form {
+                background-color: var(--branco3);
+                border-radius: 10px;
+                padding: 20px;
+                width: 50%;
+            }
+    
+    
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+    
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid gray;
+                border-radius: 2px;
+                font-size: 14px;
+            }
+    
+            .submit-button {
+                background-color: rgba(128, 128, 128, 0.5); 
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                width: 20%;
+                transition: background-color 0.2s ease-in-out;
+            }
+           
+            textarea{
+                width: 100%;
+                border: 1px solid #8080808f;
+            }
+    
+            input,select,textarea {
+                border: 1px solid rgba(0,0,0,.12) !important;
+                background-color: #fff !important;
+                color:black;
+                padding: 12px;
+                border-radius: 4px;
+            }
+    
+            textarea:focus {
+                 outline: 1px solid var(--verde);
+            }
+    
+    #subAttBack {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #00000052;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #subAtt {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      z-index: 1001;
+      position: relative;
+    display: grid;
+        gap: 10px;
+    }
+    
+    .form-group {
+         width: 100% !important;
+    }
+    
+    #subAttBack2 {
+        width: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;  
+      padding: 10px; 
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box; 
+    }
+    
+    .form-group textarea {
+      resize: vertical;  
+      min-height: 100px; 
+    }
+    
+    .back h2 {
+       padding: 10px;
+    margin-bottom: 5px;
+    }
+    
+    .content {
+       width: 100% !important;
+       padding: 10px;
+    }
+    
+    .submit-button {
+      width: 100%; 
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #049E61; 
+      color: white;
+      cursor: pointer;
+      transition: all 100ms linear;
+    }
+    
+    .submit-button:hover {
+        background-color: #148d5c; 
+        transition: all 100ms linear;
+    }
+    
+    
+    .edit-indicator{
+        color: #616c78;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 7px;
+        font-weight: normal;
+        font-size: 12px;
+        padding: 6px 6px;
+        border-radius: 15px;
+        margin-top: 16px !important;
+    }
+            
+        .popup-responsavel {
+           border: 0; outline: 0; background-color: transparent;
+           pointer-events :none;
+        }
+    
+        </style>
+    
+    
+    
+        <h2>Banco de Perguntas e Respostas</h2>
+        <!-- form para download do file de aprovadas -->
+    
+        
+        
+    
+        
+    
+        
+    
+        <div class="alteradoComSucessoPopup" style="display: none;"> 
+            
+    
+    <style>
+        .popup {
+            width: 30vw;
+            height: fit-content;
+            border-radius: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            z-index: 9999999;
+            padding: 50px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: absolute;
+            margin-top: 5%;
+            opacity: 1;
+        }
+    
+        .img {
+            margin-top: -70px;
+    
+        }
+    
+        .text {
+            text-align: center;
+            width: 100% !important;
+        }
+    
+        .text h5 {
+            width: 100% !important;
+        }
+        
+        .btnPop {
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+    
+        }
+        .removePopup{
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+        }
+    
+        .btnPop:hover {
+            background-color: var(--verde2);
+            transition: all 300ms linear;
+        }
+    
+        .backPop {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            display: flex;
+        }
+    
+        .backPop2 {
+            background-color: #000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 99999;
+        }
+    
+        .btDiv {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            justify-content: center;
+        }
+    
+        
+    
+        .input-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+    
+        .input-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+    
+        .input-text {
+            width: 100%;
+            padding: 6px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 8px;
+        }
+    
+        .input-text:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+    
+        .input-text::placeholder {
+            color: #aaa;
+        }
+    
+    
+        button {
+            border: 0;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+    
+        }
+    
+      
+    
+    </style>
+    
+    <div class="backPop">
+        <div class="backPop2"></div>
+        <div class="popup">
+            <div class="img">
+                <img src="/arquivos/static/global/img/success.svg">
+            </div>
+            <div class="text">
+                <h5>Resposta de<span class="popup-responsavel">[object HTMLInputElement]</span>foi modificada com sucesso</h5>
+            </div>
+            
+    
+            
+    
+            <div class="btDiv">
+                
+                <button class="btnPop" id="">Ok</button>
+                
+    
+                
+    
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+    // $(".removePopup").on("click", () => {
+    //     $(".backPop").css("display", "none"); 
+    // });
+    
+    
+        $(document).ready(function() {
+            let txt = $('#bt2').text();
+            console.log(txt)
+            if(txt === '' ||txt.length==0 || !txt) {
+                $('#bt2').css('display', 'none');
+            }
+        })
+    
+        $('.btnPop').on('click', function() {
+            let txt = $(this).text();
+            if(txt == 'Recarregar') {
+                $('#search').submit();
+            } else if(txt == 'Ok' || txt == 'Cancelar' || txt == 'OK') {
+                $('.backPop').parent().css('display', 'none');
+            } else if(txt == 'Tentar Novamente') {
+                $('.backPop').parent().css('display', 'none');
+               //mudar para pegar a função que foi adicionada
+                unbind();
+            }
+        })
+    
+        $('.backPop2').on('click', function() {
+            $('.backPop').parent().css('display', 'none');
+        })
+    </script>
+        </div>
+    
+        <div class="erroAlterar" style="display: none;"> 
+            
+    
+    <style>
+        .popup {
+            width: 30vw;
+            height: fit-content;
+            border-radius: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            z-index: 9999999;
+            padding: 50px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: absolute;
+            margin-top: 5%;
+            opacity: 1;
+        }
+    
+        .img {
+            margin-top: -70px;
+    
+        }
+    
+        .text {
+            text-align: center;
+            width: 100% !important;
+        }
+    
+        .text h5 {
+            width: 100% !important;
+        }
+        
+        .btnPop {
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+    
+        }
+        .removePopup{
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+        }
+    
+        .btnPop:hover {
+            background-color: var(--verde2);
+            transition: all 300ms linear;
+        }
+    
+        .backPop {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            display: flex;
+        }
+    
+        .backPop2 {
+            background-color: #000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 99999;
+        }
+    
+        .btDiv {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            justify-content: center;
+        }
+    
+        
+    
+        .input-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+    
+        .input-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+    
+        .input-text {
+            width: 100%;
+            padding: 6px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 8px;
+        }
+    
+        .input-text:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+    
+        .input-text::placeholder {
+            color: #aaa;
+        }
+    
+    
+        button {
+            border: 0;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+    
+        }
+    
+      
+    
+    </style>
+    
+    <div class="backPop">
+        <div class="backPop2"></div>
+        <div class="popup">
+            <div class="img">
+                <img src="/arquivos/static/global/img/error.svg">
+            </div>
+            <div class="text">
+                <h5>Resposta modificada sem sucesso. Tente mais tarde</h5>
+            </div>
+            
+    
+            
+    
+            <div class="btDiv">
+                
+                <button class="btnPop" id="">Ok</button>
+                
+    
+                
+    
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+    // $(".removePopup").on("click", () => {
+    //     $(".backPop").css("display", "none"); 
+    // });
+    
+    
+        $(document).ready(function() {
+            let txt = $('#bt2').text();
+            console.log(txt)
+            if(txt === '' ||txt.length==0 || !txt) {
+                $('#bt2').css('display', 'none');
+            }
+        })
+    
+        $('.btnPop').on('click', function() {
+            let txt = $(this).text();
+            if(txt == 'Recarregar') {
+                $('#search').submit();
+            } else if(txt == 'Ok' || txt == 'Cancelar' || txt == 'OK') {
+                $('.backPop').parent().css('display', 'none');
+            } else if(txt == 'Tentar Novamente') {
+                $('.backPop').parent().css('display', 'none');
+               //mudar para pegar a função que foi adicionada
+                unbind();
+            }
+        })
+    
+        $('.backPop2').on('click', function() {
+            $('.backPop').parent().css('display', 'none');
+        })
+    </script>
+        </div>
+    
+    
+    
+        <div id="deletePopup" style="display: none;">
+            
+    
+    <style>
+        .popup {
+            width: 30vw;
+            height: fit-content;
+            border-radius: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            z-index: 9999999;
+            padding: 50px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: absolute;
+            margin-top: 5%;
+            opacity: 1;
+        }
+    
+        .img {
+            margin-top: -70px;
+    
+        }
+    
+        .text {
+            text-align: center;
+            width: 100% !important;
+        }
+    
+        .text h5 {
+            width: 100% !important;
+        }
+        
+        .btnPop {
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+    
+        }
+        .removePopup{
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+        }
+    
+        .btnPop:hover {
+            background-color: var(--verde2);
+            transition: all 300ms linear;
+        }
+    
+        .backPop {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            display: flex;
+        }
+    
+        .backPop2 {
+            background-color: #000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 99999;
+        }
+    
+        .btDiv {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            justify-content: center;
+        }
+    
+        
+    
+        .input-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+    
+        .input-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+    
+        .input-text {
+            width: 100%;
+            padding: 6px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 8px;
+        }
+    
+        .input-text:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+    
+        .input-text::placeholder {
+            color: #aaa;
+        }
+    
+    
+        button {
+            border: 0;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+    
+        }
+    
+      
+    
+    </style>
+    
+    <div class="backPop">
+        <div class="backPop2"></div>
+        <div class="popup">
+            <div class="img">
+                <img src="/arquivos/static/global/img/info.svg">
+            </div>
+            <div class="text">
+                <h5>Esta ação deletará para sempre a resposta.</h5>
+            </div>
+            
+    
+            
+    
+            <div class="btDiv">
+                
+                    <button class="removePopup" id="bt2">Cancelar</button>
+                
+                <button class="btnPop" id="">Continuar</button>
+                
+    
+                
+    
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+    // $(".removePopup").on("click", () => {
+    //     $(".backPop").css("display", "none"); 
+    // });
+    
+    
+        $(document).ready(function() {
+            let txt = $('#bt2').text();
+            console.log(txt)
+            if(txt === '' ||txt.length==0 || !txt) {
+                $('#bt2').css('display', 'none');
+            }
+        })
+    
+        $('.btnPop').on('click', function() {
+            let txt = $(this).text();
+            if(txt == 'Recarregar') {
+                $('#search').submit();
+            } else if(txt == 'Ok' || txt == 'Cancelar' || txt == 'OK') {
+                $('.backPop').parent().css('display', 'none');
+            } else if(txt == 'Tentar Novamente') {
+                $('.backPop').parent().css('display', 'none');
+               //mudar para pegar a função que foi adicionada
+                unbind();
+            }
+        })
+    
+        $('.backPop2').on('click', function() {
+            $('.backPop').parent().css('display', 'none');
+        })
+    </script>
+        </div>
+    
+        <div id="subAttBack" class="back">
+            <div id="subAttBack2" class="back2" onclick="$('#subAttBack').css('display', 'none')"></div>
+            <div id="subAtt" class="content">
+                <h2 class="responsavel-nome">Editar sugestão de </h2>
+                <div class="form-group" style="margin-bottom: 15px;">
+                      
+    <link href="/arquivos/static/core/componentes/css/input.css" rel="stylesheet">
+    
+    <div class="input">
+        <div>
+            
+            <input type="text" name="responsavel" value="" placeholder="" list="" true="" maxlength="" minlength="" id="responsavel" class="responsavelInput" max="" min="">
+            
+            <label for="responsavel" id="responsavel" class="goLabelToDown">Responsável </label>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".input input").forEach((input) => {
+                const label = input.nextElementSibling;
+    
+                if (input.value.length > 0 || input.placeholder.length > 0) {
+                    label.classList.add("goLabelToTop");
+                } else {
+                    label.classList.add("goLabelToDown");
+                }
+    
+                input.addEventListener("focus", () => {
+                    if (label.classList.contains("goLabelToDown")) {
+                        label.classList.replace("goLabelToDown", "goLabelToTop");
+                    } else {
+                        label.classList.add("goLabelToTop");
+                    }
+                });
+    
+                input.addEventListener("blur", () => {
+                    if (!input.value && !input.placeholder) {
+                        label.classList.replace("goLabelToTop", "goLabelToDown");
+                    }
+                });
+            });
+        });
+    </script>
+    
+                  </div>
+                  <div class="form-group" style="margin-bottom: 15px;">
+                      
+    <link href="/arquivos/static/core/componentes/css/input.css" rel="stylesheet">
+    
+    <div class="input">
+        <div>
+            
+            <input type="text" name="pergunta" value="" placeholder="" list="" true="" maxlength="" minlength="" id="pergunta" class="perguntaInput" max="" min="">
+            
+            <label for="pergunta" id="pergunta" class="goLabelToDown">Pergunta </label>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".input input").forEach((input) => {
+                const label = input.nextElementSibling;
+    
+                if (input.value.length > 0 || input.placeholder.length > 0) {
+                    label.classList.add("goLabelToTop");
+                } else {
+                    label.classList.add("goLabelToDown");
+                }
+    
+                input.addEventListener("focus", () => {
+                    if (label.classList.contains("goLabelToDown")) {
+                        label.classList.replace("goLabelToDown", "goLabelToTop");
+                    } else {
+                        label.classList.add("goLabelToTop");
+                    }
+                });
+    
+                input.addEventListener("blur", () => {
+                    if (!input.value && !input.placeholder) {
+                        label.classList.replace("goLabelToTop", "goLabelToDown");
+                    }
+                });
+            });
+        });
+    </script>
+    
+                  </div>
+                  <div class="form-group" style="margin-bottom: 15px;">
+                      <label for="resposta">Resposta </label>
+                      <textarea minlength="5" rows="8" placeholder="Digite aqui a resposta correspondente à pergunta:" id="feedbackText" name="resposta" required="">                  </textarea>
+                  </div>
+                  <button class="submit-button update" style="cursor: pointer;">Enviar</button>
+            </div>
+          </div>
+          
+          <div id="confirmUpdatePopup" style="display: none;">
+            
+    
+    <style>
+        .popup {
+            width: 30vw;
+            height: fit-content;
+            border-radius: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            z-index: 9999999;
+            padding: 50px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: absolute;
+            margin-top: 5%;
+            opacity: 1;
+        }
+    
+        .img {
+            margin-top: -70px;
+    
+        }
+    
+        .text {
+            text-align: center;
+            width: 100% !important;
+        }
+    
+        .text h5 {
+            width: 100% !important;
+        }
+        
+        .btnPop {
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+    
+        }
+        .removePopup{
+            background-color: var(--verde);
+            text-align: center;
+            font: normal normal 600 14px/19px Nunito Sans;
+            letter-spacing: 0px;
+            color: #F6F6F6;
+            opacity: 1;
+            font-size: 16px;
+            width: 40%;
+            height: fit-content;
+            padding: 5px 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            transition: all 300ms linear;
+        }
+    
+        .btnPop:hover {
+            background-color: var(--verde2);
+            transition: all 300ms linear;
+        }
+    
+        .backPop {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            display: flex;
+        }
+    
+        .backPop2 {
+            background-color: #000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 99999;
+        }
+    
+        .btDiv {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            justify-content: center;
+        }
+    
+        
+    
+        .input-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+    
+        .input-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+    
+        .input-text {
+            width: 100%;
+            padding: 6px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 8px;
+        }
+    
+        .input-text:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+    
+        .input-text::placeholder {
+            color: #aaa;
+        }
+    
+    
+        button {
+            border: 0;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+    
+        }
+    
+      
+    
+    </style>
+    
+    <div class="backPop">
+        <div class="backPop2"></div>
+        <div class="popup">
+            <div class="img">
+                <img src="/arquivos/static/global/img/info.svg">
+            </div>
+            <div class="text">
+                <h5>Tem certeza que deseja atualizar esta resposta?</h5>
+            </div>
+            
+    
+            
+    
+            <div class="btDiv">
+                
+                    <button class="removePopup" id="bt2">Cancelar</button>
+                
+                <button class="btnPop" id="">Confirmar</button>
+                
+    
+                
+    
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+    // $(".removePopup").on("click", () => {
+    //     $(".backPop").css("display", "none"); 
+    // });
+    
+    
+        $(document).ready(function() {
+            let txt = $('#bt2').text();
+            console.log(txt)
+            if(txt === '' ||txt.length==0 || !txt) {
+                $('#bt2').css('display', 'none');
+            }
+        })
+    
+        $('.btnPop').on('click', function() {
+            let txt = $(this).text();
+            if(txt == 'Recarregar') {
+                $('#search').submit();
+            } else if(txt == 'Ok' || txt == 'Cancelar' || txt == 'OK') {
+                $('.backPop').parent().css('display', 'none');
+            } else if(txt == 'Tentar Novamente') {
+                $('.backPop').parent().css('display', 'none');
+               //mudar para pegar a função que foi adicionada
+                unbind();
+            }
+        })
+    
+        $('.backPop2').on('click', function() {
+            $('.backPop').parent().css('display', 'none');
+        })
+    </script>
+        </div>
+        
+        
+        
+        <form action="/core/bancoPerguntasRespostas" method="post">
+            <input value="download" type="hidden" name="downloadVerificadasFile" id="downloadVerificadasFile">
+            <button style="padding:15px 24px !important;" class="downloadVerificadasFileBtn" type="submit"> Baixar arquivos com interações aprovadas</button>
+        </form>
+    
+        <!-- form para toggle de estado aprovada ou desaprovada -->
+        <form id="formToToggleAprovaInput" action="/core/bancoPerguntasRespostas" method="post">
+            <input value="" type="hidden" name="idToToggleAprovaInput" id="idToToggleAprovaInput">
+            <input value="" type="hidden" name="toggleVal" id="toggleVal">
+            <input type="text" name="stateVerifiedInput" class="stateVerifiedInput1" hidden="">
+            
+        </form>
+    
+        <form id="search" action="/core/bancoPerguntasRespostas" method="POST">
+            <input type="text" name="stateVerifiedInput" class="stateVerifiedInput2" hidden="">
+            <input type="text" name="pagina" value="1" hidden="">
+        </form>
+            <div id="btns">
+                <p>Filtre os resultados:</p>
+                <select name="stateVerified" class="stateVerifiedSelect">
+                    <option value="*">Todas</option>
+                    <option value="true">Aprovadas</option>
+                    <option value="false">Não aprovadas</option>
+                </select>
+            </div>
+      
+            <div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><div class="spacing"></div><table>
+                <thead>
+                    <tr>
+                        <th><h5 style="border-top-left-radius: 5px; display: flex; align-items: center; justify-content: center; gap: 5px;">Data
+                            <svg onclick="toggleOrderTable()" class="dateIconOrder" style="width: 20px; height: 20px; cursor:pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
+                            </svg>
+                        </h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Chat</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Responsável</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Pergunta</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Resposta</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Aprovar</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Editar</h5></th>
+                        <th><h5 style="border-top-left-radius: 5px">Deletar</h5></th>
+                    </tr>
+                </thead>
+                <tbody class="tableRespostas">
+                    
+                    
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            24/02/2025
+                            
+                                <span class="edit-indicator">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>                                    
+                                    Editado</span>
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Posso adicionar a câmera IZC 1003, no mibo smart?</td>
+                            <td class="resposta">Não é possível adicionar câmeras da linha IZC no aplicativo Mibo Smart. As câmeras IZC são compatíveis somente com o aplicativo Izy Smart.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-4119" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Posso adicionar a câmera IZC 1003, no mibo smart?', 'Não é possível adicionar câmeras da linha IZC no aplicativo Mibo Smart. As câmeras IZC são compatíveis somente com o aplicativo Izy Smart.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-4119" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-4119" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                                <span class="edit-indicator">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>                                    
+                                    Editado</span>
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">. Nível de Gatilho onde achar, como fazer.</td>
+                            <td class="resposta">Se encontra nas configurações da câmera &gt; configurações de alarme &gt; ajuste de sensibilidade &gt; ajustar para o nivel que deseja</td>
+                            <td class="tdCenter">
+                                <div data-id="id-4118" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', '. Nível de Gatilho onde achar, como fazer.', 'Se encontra nas configurações da câmera \u003E configurações de alarme \u003E ajuste de sensibilidade \u003E ajustar para o nivel que deseja')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-4118" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-4118" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                                <span class="edit-indicator">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>                                    
+                                    Editado</span>
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">quais câmera mibo possuem 2 lentes?</td>
+                            <td class="resposta">A câmera mibo que possuí duas lentes até o momento é a câmera externa iM9. Ela é ideal para cobrir um ambiente com grande ângulo de visão.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-4046" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'quais câmera mibo possuem 2 lentes?', 'A câmera mibo que possuí duas lentes até o momento é a câmera externa iM9. Ela é ideal para cobrir um ambiente com grande ângulo de visão.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-4046" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-4046" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Existe um aplicativo para TV? </td>
+                            <td class="resposta">Sim, o aplicativo Mibo Smart para TV está disponível para Smart TVs e Smart box com sistema operacional Android.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3974" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Existe um aplicativo para TV? ', 'Sim, o aplicativo Mibo Smart para TV está disponível para Smart TVs e Smart box com sistema operacional Android.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3974" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3974" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                                <span class="edit-indicator">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>                                    
+                                    Editado</span>
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Posso adicionar a câmera IZC 1003, no mibo smart?</td>
+                            <td class="resposta">Não é possível adicionar câmeras da linha IZC no aplicativo Mibo Smart. As câmeras IZC são compatíveis somente com o aplicativo Izy Smart.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3902" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Posso adicionar a câmera IZC 1003, no mibo smart?', 'Não é possível adicionar câmeras da linha IZC no aplicativo Mibo Smart. As câmeras IZC são compatíveis somente com o aplicativo Izy Smart.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3902" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3902" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">. Tem como exportar do dispositivos da linha IZY para o MIBO SMART ou precisa refazer as configurações de cada produto individualmente no MIBO SMART ?</td>
+                            <td class="resposta">Infelizmente não é possível exportar os produtos em grupo. Para trocar de aplicativo é necessário refazer as configurações de cada produto individualmente no aplicativo Mibo Smart.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3830" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', '. Tem como exportar do dispositivos da linha IZY para o MIBO SMART ou precisa refazer as configurações de cada produto individualmente no MIBO SMART ?', 'Infelizmente não é possível exportar os produtos em grupo. Para trocar de aplicativo é necessário refazer as configurações de cada produto individualmente no aplicativo Mibo Smart.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3830" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3830" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Se houver questionamentos sobre câmeras pra uso interno e externo aqui está o guia para você se informar:</td>
+                            <td class="resposta">Internas (não recomende nenhuma dessas câmeras quando for solicitado câmeras externas): 
+    iMX1
+    iM1
+    iM3
+    iM3 C
+    iM3 Black
+    iM3 C Black
+    iMX
+    iMX C
+    iMX Black
+    iMX C Black
+    iM4
+    iM4 C
+    iME 360
+    iME 360 C
+    iM1 2M
+    iM6 Full Color
+    iME 360 3M
+    iM4 3M
+    iM4 Dual
+    
+    Externas (não recomende nenhuma dessas câmeras quando for solicitado câmeras internas):
+    iME 500 Full Color
+    iM5+ Full Color
+    iM7 Full Color
+    iM7 S Full Color
+    iM8
+    iM7+ 3M Full Color
+    iM7+ Zoom Full Color
+    iM9+ Full Color
+    iM8 Full Color
+    
+    Não utilize o  nome do dispositivo como referencia para recomendações, se atente aos itens técnicos e informações lógicas que você tem em seus arquivos. Por exemplo se alguém pedir uma câmera MIBO 360 para o uso externo, você não pode recomendar a iME 360 C, pois ela é de uso interno, use essa lógica para recomendações.
+    </td>
+                            <td class="tdCenter">
+                                <div data-id="id-3758" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Se houver questionamentos sobre câmeras pra uso interno e externo aqui está o guia para você se informar:', 'Internas (não recomende nenhuma dessas câmeras quando for solicitado câmeras externas): \u000D\u000AiMX1\u000D\u000AiM1\u000D\u000AiM3\u000D\u000AiM3 C\u000D\u000AiM3 Black\u000D\u000AiM3 C Black\u000D\u000AiMX\u000D\u000AiMX C\u000D\u000AiMX Black\u000D\u000AiMX C Black\u000D\u000AiM4\u000D\u000AiM4 C\u000D\u000AiME 360\u000D\u000AiME 360 C\u000D\u000AiM1 2M\u000D\u000AiM6 Full Color\u000D\u000AiME 360 3M\u000D\u000AiM4 3M\u000D\u000AiM4 Dual\u000D\u000A\u000D\u000AExternas (não recomende nenhuma dessas câmeras quando for solicitado câmeras internas):\u000D\u000AiME 500 Full Color\u000D\u000AiM5+ Full Color\u000D\u000AiM7 Full Color\u000D\u000AiM7 S Full Color\u000D\u000AiM8\u000D\u000AiM7+ 3M Full Color\u000D\u000AiM7+ Zoom Full Color\u000D\u000AiM9+ Full Color\u000D\u000AiM8 Full Color\u000D\u000A\u000D\u000ANão utilize o  nome do dispositivo como referencia para recomendações, se atente aos itens técnicos e informações lógicas que você tem em seus arquivos. Por exemplo se alguém pedir uma câmera MIBO 360 para o uso externo, você não pode recomendar a iME 360 C, pois ela é de uso interno, use essa lógica para recomendações.\u000D\u000A')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3758" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3758" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Geofencing ou , cerca geográfica, é uma função disponível no aplicativo Mibo Smart que permite ao usuário receber notificações quando está fora de uma área pré-determinada. Para habilitar essa função, é necessário selecionar a câmera desejada e pressionar o ícone "engrenagem". Já a configuração da demonstração ponto-a-ponto pode ser realizada selecionando o menu "Demonstração ponto a ponto" no aplicativo Mibo Smart. Não há informações disponíveis sobre a cerca geográfica em outras fontes de informação fornecidas.</td>
+                            <td class="resposta">Para conferir as diferenças entre os modelos do produto, acesse o comparativo 
+    https://app-mibo.intelbras.com.br/manual.html#especifica%C3%A7%C3%B5es-t%C3%A9cnicas</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3614" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Geofencing ou , cerca geográfica, é uma função disponível no aplicativo Mibo Smart que permite ao usuário receber notificações quando está fora de uma área pré\u002Ddeterminada. Para habilitar essa função, é necessário selecionar a câmera desejada e pressionar o ícone \u0022engrenagem\u0022. Já a configuração da demonstração ponto\u002Da\u002Dponto pode ser realizada selecionando o menu \u0022Demonstração ponto a ponto\u0022 no aplicativo Mibo Smart. Não há informações disponíveis sobre a cerca geográfica em outras fontes de informação fornecidas.', 'Para conferir as diferenças entre os modelos do produto, acesse o comparativo \u000D\u000Ahttps://app\u002Dmibo.intelbras.com.br/manual.html#especifica%C3%A7%C3%B5es\u002Dt%C3%A9cnicas')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3614" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3614" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">. qual aplicativo utilizar para a câmera ic3?</td>
+                            <td class="resposta">O aplicativo a ser utilizado para a câmera ic3 é o Mibo.</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3398" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', '. qual aplicativo utilizar para a câmera ic3?', 'O aplicativo a ser utilizado para a câmera ic3 é o Mibo.')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3398" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3398" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    <tr>
+                        <td class="date-status" style="padding: 20px; gap: 5px; pointer-events: none;">
+                            21/02/2025
+                            
+                        </td>
+                            <td class="which-chat">CHAT_CONSUMER</td>
+                            <td class="responsavel">Letícia/José</td>
+                            <td class="pergunta">Perguntas relacionadas a cartão SD como (Exemplo: "Qual cartão SD compro para câmeras Mibo?"  "Que tipo de cartão uso nas câmeras da Intelbras?"  "Posso usar *nome do cartão SD* na minha câmera?")</td>
+                            <td class="resposta">"Para informações sobre cartões SD acesse https://app-mibo.intelbras.com.br/sd-card/index.html .  Para informações e dúvidas que não estejam presentes no material, recomendo que fale com fornecedores a respeito."</td>
+                            <td class="tdCenter">
+                                <div data-id="id-3182" onclick="checkBoxAprovarResposta(this, true)">
+                                    
+    <style> 
+    .checkbox-container p {
+        font-size: 14px; 
+    }
+    
+      .ios-checkbox {
+      --checkbox-size: 28px;
+      --checkbox-color: #3b82f6;
+      --checkbox-bg: #dbeafe;
+      --checkbox-border: #93c5fd;
+    
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border: 0 !important;
+    
+      }
+    
+      .ios-checkbox input {
+      display: none;
+      }
+    
+      .checkbox-wrapper {
+      position: relative;
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+      border: 0 !important;
+      }
+    
+      .checkbox-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid var(--checkbox-border);
+      background: white;
+      transition: all 0.2s ease;
+      }
+    
+      .checkbox-icon {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 80%;
+      height: 80%;
+      color: white;
+      transform: scale(0);
+      transition: all 0.2s ease;
+      }
+    
+      .check-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      transition: stroke-dashoffset 0.3s ease 0.1s;
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-bg {
+      background: var(--verde);
+      border-color: var(--verde2);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .checkbox-icon {
+      transform: scale(1);
+      }
+    
+      .ios-checkbox input:checked + .checkbox-wrapper .check-path {
+      stroke-dashoffset: 0;
+      }
+    
+      .ios-checkbox:hover .checkbox-wrapper {
+      transform: scale(1.05);
+      }
+    
+      .ios-checkbox:active .checkbox-wrapper {
+      transform: scale(0.95);
+      }
+    
+      .ios-checkbox input:focus + .checkbox-wrapper .checkbox-bg {
+      box-shadow: 0 0 0 4px var(--checkbox-bg);
+      }
+    
+      .ios-checkbox.green {
+      --checkbox-color:  var(--verde2);
+      --checkbox-bg: #d1fae5;
+      --checkbox-border: var(--verde);
+      }
+    </style>
+    
+     <div class="checkbox-container" onclick="">
+        <label class="ios-checkbox green">
+            <input checked="" class="check" data-id="" type="checkbox" name="check" id="" hidden="">
+          
+          <div class="checkbox-wrapper">
+            <div class="checkbox-bg"></div>
+            <svg fill="none" viewBox="0 0 24 24" class="checkbox-icon">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" d="M4 12L10 18L20 6" class="check-path"></path>
+            </svg>
+          </div>
+        </label>
+    </div> 
+    
+                                </div>
+                            
+    
+                                <!-- {% include 'core/componentes/checkbox.html'
+                                  with  onclickFn="checkBoxAprovarResposta(this, 1)" inputClass="check" inputName="check" checked=resposta.estaVerificada %} -->
+                                <!-- {% include 'core/componentes/checkbox.html' 
+                                    with inputClass="check" 
+                                    inputName="check" 
+                                    checked=resposta.estaVerificada == 1 
+                                    onclickFn="checkBoxAprovarResposta(this, true)" 
+                                %} -->
+                            </td>
+                            <td>
+                                <button onclick="updateResposta(this, 'Letícia/José', 'Perguntas relacionadas a cartão SD como (Exemplo: \u0022Qual cartão SD compro para câmeras Mibo?\u0022  \u0022Que tipo de cartão uso nas câmeras da Intelbras?\u0022  \u0022Posso usar *nome do cartão SD* na minha câmera?\u0022)', '\u0022Para informações sobre cartões SD acesse https://app\u002Dmibo.intelbras.com.br/sd\u002Dcard/index.html .  Para informações e dúvidas que não estejam presentes no material, recomendo que fale com fornecedores a respeito.\u0022')" ;="" atualizarpopup('letícia="" josé')="" data-id="id-3182" class="updateBtn">
+                                    <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
+                                    </svg>
+                                </button>
+    
+                        </td>
+                            <td>
+                                    <button onclick="deleteResposta(this)" data-id="id-3182" class="removeBtn">
+                                        <svg class="svgRemove" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"></path>
+                                        </svg>
+                                    </button>
+                            </td>
+    
+                        </tr>
+                        
+                        
+                    
+                </tbody>
+            </table>
+            
+            <div class="spanPaginasWrapper" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;margin-bottom: 20px;">
+                
+                    
+                        <span class="active">1</span>
+                    
+                
+                    
+                        <span>2</span>
+                    
+                
+                    
+                        <span>3</span>
+                    
+                
+                    
+                        <span class="pontos">...</span>
+                    
+                
+                    
+                        <span>10</span>
+                    
+                
+            </div>
+    
+        <script>
+            function atualizarPopup(responsavel) {
+        // Verifica se 'responsavel' é um elemento HTML (exemplo: input)
+        if (responsavel instanceof HTMLElement) {
+            responsavel = responsavel.value; // Pega o valor correto do input
+        }
+        // Atualiza o texto no popup
+        document.querySelector(".popup-responsavel").textContent = responsavel;
+    
+        // Exibe o popup
+    }
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        try {
+            let base64Docx = ""; 
+            if (base64Docx) {
+                const byteCharacters = atob(base64Docx);  
+                const byteArrays = [];
+    
+                for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                    const slice = byteCharacters.slice(offset, offset + 1024);
+                    const byteNumbers = new Array(slice.length);
+                    for (let i = 0; i < slice.length; i++) {
+                        byteNumbers[i] = slice.charCodeAt(i);
+                    }
+                    byteArrays.push(new Uint8Array(byteNumbers));
+                }
+    
+                const blob = new Blob(byteArrays, { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+    
+                const downloadLink = document.createElement("a");
+                downloadLink.href = URL.createObjectURL(blob);
+                downloadLink.download = "respostasVerificadasAssistente.docx"; 
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }
+        } catch (error) {
+            console.error("Error downloading the file:", error);
+        }
+    });
+    
+    
+    
+            function checkBoxAprovarResposta(element,toggleBoolean) { 
+                const idToToggleAprova = element.getAttribute("data-id");
+                 document.getElementById("idToToggleAprovaInput").value = idToToggleAprova.split("-")[1]
+                 console.log(toggleBoolean);
+                 document.querySelector(".stateVerifiedInput1").value = document.querySelector('.stateVerifiedSelect').value
+                 document.querySelector(".stateVerifiedInput2").value = document.querySelector('.stateVerifiedSelect').value
+                 document.getElementById("toggleVal").value = !toggleBoolean
+                 loading(true)
+                 document.getElementById("formToToggleAprovaInput").submit()
+            }
+    
+            document.querySelector('.stateVerifiedSelect').addEventListener('change', function(event) {
+                    loading(true)
+                    const selectedValue = event.target.value; 
+                    document.querySelector(".stateVerifiedInput1").value = selectedValue;
+                    document.querySelector(".stateVerifiedInput2").value = selectedValue;
+                    document.querySelector("#search").submit(); 
+            });
+    
+    
+            function toggleOrderTable() {
+                const tbody = document.querySelector("tbody");
+                const rows = Array.from(tbody.querySelectorAll("tr"));
+    
+                rows.reverse();
+    
+                tbody.innerHTML = "";
+                rows.forEach(row => tbody.appendChild(row));
+            }
+            document.querySelector(".popup-responsavel").textContent = responsavel;
+    
+    
+    
+    
+    let responsavelEdited = ""
+    let perguntaEdited = ""
+    let respostaEdited = ""
+    function updateResposta(updateBtn, responsavel, pergunta, resposta) {
+        
+        document.querySelector(".responsavel-nome").textContent = "Editar sugestão de " + responsavel;
+    
+    
+        document.querySelector("#feedbackText").value = ""
+        document.querySelector(".responsavelInput").value = "";
+        document.querySelector(".perguntaInput").value = "";
+    
+        document.querySelector("#subAttBack").style.display = "flex";
+        
+        document.querySelector(".responsavelInput").value = !responsavelEdited ? responsavel : responsavelEdited;
+        document.querySelector(".perguntaInput").value = !perguntaEdited ? pergunta : perguntaEdited;
+        document.querySelector("#feedbackText").value = !respostaEdited ?  resposta : respostaEdited;
+    
+        document.querySelector(".responsavelInput").focus();
+        document.querySelector(".perguntaInput").focus();
+        document.querySelector(".perguntaInput").blur(); 
+        
+    
+    
+        document.querySelector(".submit-button.update").addEventListener("click", (e) => {
+        e.preventDefault();
+        document.querySelector("#confirmUpdatePopup").style.display = "block";
+    });
+    
+    // Se o usuário clicar em "Cancelar", fecha o pop-up
+    document.querySelector("#confirmUpdatePopup .removePopup").addEventListener("click", () => {
+        document.querySelector("#confirmUpdatePopup").style.display = "none";
+    });
+    
+    // Se o usuário clicar em "Confirmar", então continua com a atualização
+    document.querySelector("#confirmUpdatePopup button:not(.removePopup)").addEventListener("click", () => {
+        document.querySelector("#confirmUpdatePopup").style.display = "none";
+        loading(true);
+    
+        const updatedResponsavel = document.querySelector(".responsavelInput").value;
+        const updatedPergunta = document.querySelector(".perguntaInput").value;
+        const updatedResposta = document.querySelector("#feedbackText").value;
+        
+        fetch("/core/bancoPerguntasRespostas", {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                responsavel: updatedResponsavel,
+                pergunta: updatedPergunta,
+                resposta: updatedResposta,
+                id: updateBtn.getAttribute("data-id").split("-")[1],
+                atualizar: true
+            }),
+        })
+        .then(response => {
+            loading(false);
+            if (response.ok) {
+                document.querySelector("#subAttBack").style.display = "none";  
+    
+                document.querySelector(".alteradoComSucessoPopup").style.display = "block";
+                document.querySelector(".alteradoComSucessoPopup span").textContent = updatedResponsavel
+    
+                const tr = updateBtn.closest("td").closest("tr");
+                tr.querySelector(".responsavel").innerHTML = updatedResponsavel;
+                tr.querySelector(".pergunta").innerHTML = updatedPergunta;
+                tr.querySelector(".resposta").innerHTML = updatedResposta;
+                
+                // Verifica se já existe o indicador "Editado", se não, adiciona
+                if (!tr.querySelector(".edit-indicator")) {
+                    const editIndicator = document.createElement("span");
+                    editIndicator.classList.add("edit-indicator");
+                    editIndicator.innerHTML = `
+                        <svg class="svgUpdate" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg> Editado
+                    `;
+                    tr.querySelector(".date-status").appendChild(editIndicator);
+                }
+    
+            } else {
+                document.querySelector(".erroAlterar").style.display="block";
+            }
+        })
+        .catch(error => {
+            console.error("Error updating response:", error);
+            alert("Ocorreu um erro. Tente novamente.");
+        });
+    });
+    
+    
+    }
+    
+    function deleteResposta(btnRemove) {
+        document.querySelector("#deletePopup").style.display = "block";
+    
+        // Se o usuário clicar em "Cancelar", fecha o pop-up
+    document.querySelector("#deletePopup .removePopup").addEventListener("click", () => {
+        document.querySelector("#deletePopup").style.display = "none";
+    });
+    
+        document.querySelector("#deletePopup .btnPop").addEventListener("click", () => {
+            document.querySelector("#deletePopup").style.display = "none";
+    
+            const idToRemove = btnRemove.getAttribute("data-id").split("-")[1];
+            const tr = btnRemove.closest("td").closest("tr");
+    
+            const url = "/core/bancoPerguntasRespostas";
+            const data = {
+                id: idToRemove,
+            };
+            loading(true);
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    loading(false);
+                    document.querySelector(".tableRespostas").removeChild(tr);
+                } else {
+                    alert('Failed to delete the response.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    
+    
+        </script>
+        
+        <script>
+            $('span').click(function() {
+                let val = $(this).html();
+                if(val === "...") return;
+                $("[name=pagina]").val(val);
+                $('#search').submit();
+            })
+            
+        </script>
+    
+    
+    
+      </section>
+    </div>
+    
+    <script src="/arquivos/static/global/js/global.js"></script>
+    
+    <script>
+      loading(false)
+    </script>
+    </body></html>

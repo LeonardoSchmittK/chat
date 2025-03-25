@@ -8,8 +8,8 @@ const TypingAnimation = ({ txt }: { txt: string }) => {
   useEffect(() => {
     animatedValues.forEach((value, index) => {
       setTimeout(() => {
-        value.value = withTiming(1, { duration: 10 });
-      }, index * 22);
+        value.value = withTiming(1, { duration: 50 });
+      }, index * 32);
     });
   }, []);
 
