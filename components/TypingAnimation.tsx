@@ -14,24 +14,31 @@ import { SvgXml } from 'react-native-svg';
 import useStore from '../stores/store';
 import sparkleSvg from '../assets/svg/sparkle.js';
 import audioSvg from '../assets/svg/audio.js';
+import getHoursAndMinutesFormatted from '@/utils/getHoursAndMinutesFormatted';
+
+interface Message {
+  content: string;
+  isUser: boolean;
+  hour?: string
+}
+
+type ButtonContinue = "Sim" | "Não";
 
 const TypingAnimation = ({ 
-  txt, 
-  isUser, 
+  messageObj,
   isLastMessage,
   scrollViewReff
 }: { 
-  txt: string; 
-  isUser: boolean;
+  messageObj:Message,
   isLastMessage: boolean; 
   scrollViewReff:any
 
 }) => {
-  const [clickedButton, setClickedButton] = useState(null);
+  const [clickedButton, setClickedButton] = useState<ButtonContinue | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [showFollowUp, setShowFollowUp] = useState(false);
   const { width } = useWindowDimensions();
-
+  const {isUser,content,hour } = messageObj
   // Animations for the main message
   const messageOpacity = useSharedValue(0);
   const messageTranslateY = useSharedValue(-20);
@@ -39,10 +46,7 @@ const TypingAnimation = ({
   // Animations for the follow-up content
   const followUpOpacity = useSharedValue(0);
   const followUpTranslateY = useSharedValue(20);
-  
-  const currentTime = new Date();
-  const hours = currentTime.getHours();
-  const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+
   const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal,addMessage } = useStore();
 
   // Animation styles
@@ -55,9 +59,6 @@ const TypingAnimation = ({
     opacity: followUpOpacity.value,
     transform: [{ translateY: followUpTranslateY.value }],
   }));
-
-
-
 
   useEffect(() => {
     // Animate main message in without scrolling
@@ -80,10 +81,11 @@ const TypingAnimation = ({
     }
   }, []);
   
-  const handleButtonClick = (button) => {
+
+  const handleButtonClick = (button:ButtonContinue) => {
     setClickedButton(button);
     setIsButtonDisabled(true);
-    addMessage(button, true)
+    addMessage({content:button, isUser:true})
     if (button === "Não") {
       setUserEndedChat();
       setOpenRatingModal(true);
@@ -117,12 +119,9 @@ const TypingAnimation = ({
             source={{ html: txt }}
             defaultTextProps={{ selectable: true }}
         /> */}
-        <RenderHTML txt={txt}/>
-
-
-          
+        <RenderHTML txt={content}/>
         </View>
-        <Text style={[styles.time, isUser ? styles.userTime : styles.botTime]}>{hours}:{minutes}</Text>
+        <Text style={[styles.time, isUser ? styles.userTime : styles.botTime]}>{hour}</Text>
       </Animated.View>
       
       {showFollowUp && (

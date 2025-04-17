@@ -19,6 +19,7 @@ import TypingAnimation from "./TypingAnimation";
 import useStore from '../stores/store';
 import LottieView from 'lottie-react-native'; 
 import CustomModal from "./CustomModal";
+import getHoursAndMinutesFormatted from "@/utils/getHoursAndMinutesFormatted";
 
 export default function ChatScreen() {
   const [message, setMessage] = useState(""); 
@@ -38,7 +39,7 @@ export default function ChatScreen() {
       setTimeout(() => {
         scrollViewRef.current?.scrollToEnd({ animated: true });
       }, 100);
-      addMessage(message, true);
+      addMessage({content:message,isUser: true});
       setMessage("");
       Keyboard.dismiss();
   
@@ -46,7 +47,7 @@ export default function ChatScreen() {
   
       setTimeout(() => {
         setLoading(false);
-        addMessage(`<div>
+        addMessage({content:`<div>
     <h1>Geofencing</h1>
     <ul>
         <li>Geofencing is a location-based service.</li>
@@ -54,7 +55,7 @@ export default function ChatScreen() {
         <li>Creates a virtual boundary (geofence).</li>
         <li>Triggers actions when a device enters or exits the boundary.</li>
     </ul>
-</div>`, false);
+</div>`,isUser:false});
         
         // Scroll to bottom after new message is added
         setTimeout(() => {
@@ -121,7 +122,7 @@ export default function ChatScreen() {
                 msg.isUser ? styles.userMessage : styles.botMessage
               ]}
             >
-              <TypingAnimation txt={msg.content} isUser={msg.isUser} isLastMessage={id === messages.length - 1} scrollViewReff={scrollViewRef} />
+              <TypingAnimation messageObj={msg} isLastMessage={id === messages.length - 1} scrollViewReff={scrollViewRef} />
             </View>
           ))}
 
@@ -184,6 +185,8 @@ const { height: screenHeight } = Dimensions.get('screen');
 const windowHeight = Dimensions.get('window').height;
 const statusBarHeight = StatusBar.currentHeight || 0;
 const navigationBarHeight = screenHeight - windowHeight - statusBarHeight;
+const screenWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     width:"100%",
@@ -218,7 +221,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: Platform.OS === "ios" ? 20 : 40,
     alignSelf: "center",
-    ...(Platform.OS === "web" ? { width: "50%" } : { width: "100%" }), 
+    maxWidth:"100%",
+    ...(Platform.OS === "web"
+      ? { width: screenWidth < 768 ? "100%" : "40%" }
+      : { width: "100%" }),
   },
   
   inputContainer: {
@@ -265,5 +271,9 @@ const styles = StyleSheet.create({
     height: Platform.OS === "web" ? 25 : 50, 
     transform: [{ scale: Platform.OS === "web" ? 1 : 2 }]
   },
+  loadingBox: {
+    width:150,
+    height: 150
+  }
 
 });

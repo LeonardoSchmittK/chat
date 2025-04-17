@@ -206,9 +206,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     elevation: 1,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
   },
   userContainer: {
     flexDirection: "row-reverse", 

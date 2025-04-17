@@ -1,8 +1,10 @@
+import getHoursAndMinutesFormatted from '@/utils/getHoursAndMinutesFormatted';
 import { create } from 'zustand';
 
 interface Message {
   content: string;
   isUser: boolean;
+  hour?: string
 }
 
 interface Store {
@@ -12,13 +14,11 @@ interface Store {
   hasUserEndedChat: boolean;
   hasUserNeedsToChooseContinueOrNot: boolean;
   openRatingModal:boolean,
-  addMessage: (content: string, isUser: boolean) => void;
+  addMessage: (message:Message) => void;
   setUserEndedChat: () => void;
   sethasUserNeedsToChooseContinueOrNot: (flag: boolean) => void;
   setOpenRatingModal: (flag: boolean) => void;
   resetStore: () => void;
-  
-
 }
 
 const useStore = create<Store>((set) => ({
@@ -28,13 +28,15 @@ const useStore = create<Store>((set) => ({
   hasUserEndedChat: false,
   hasUserNeedsToChooseContinueOrNot:false,
   openRatingModal:false,
-  addMessage: (content: string, isUser: boolean) => 
+  addMessage: ({ content, isUser }: Omit<Message, 'hour'>) =>
     set((state) => {
-      const newMessages = [...state.messages, { content, isUser }];
+      const hour = getHoursAndMinutesFormatted(); 
+      const newMessage = { content, isUser, hour }; 
+      const newMessages = [...state.messages, newMessage]; 
       return { 
-        messages: newMessages, 
-        hasUserSentMessage: newMessages.length > 0,
-        counterUserMessages: newMessages.length
+        messages: newMessages,
+        hasUserSentMessage: newMessages.some(msg => msg.isUser),
+        counterUserMessages: newMessages.filter(msg => msg.isUser).length
       };
     }),
   setUserEndedChat: () => 
