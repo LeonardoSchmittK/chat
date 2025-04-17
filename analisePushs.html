@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sora:wght@100..800&family=Varela+Round&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+
+    <title>Card com Dropdown Animado</title>
+    <style>
+        * {
+             font-family: Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .dropdown-content.show {
+            max-height: 320px;
+            opacity: 1;
+        }
+
+        .rotate {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .cardLink {
+             background-color: #26dd9415 !important;
+             color: #00B26B !important;
+        }
+
+        .cardLink.disabled  {
+            background-color: #dd26260a !important;
+            color: #b23200 !important;
+        }
+     
+        #arrow {
+            display: block;
+            background-color: rgba(201, 201, 201, 0.096);
+            padding: 0.5em;
+            border-radius: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        hr {
+             margin-top: 2em !important;
+             opacity: 0.35;
+        }
+
+        #mainBtn {
+             background-color: #2DBF85;
+             transition: all 100ms linear;
+        }
+
+        #mainBtn:hover,.copy:hover {
+             background-color: #38ac7d;
+             transition: all 100ms linear;
+        }
+
+        .copy {
+            background-color: #2DBF85;
+            padding: 0.5em;
+            border-radius: 10px;
+            margin: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #secondaryBtn {
+            background-color: #63B4FF ;
+            transition: all 100ms linear;
+        }
+        #secondaryBtn:hover {
+            background-color: #539de2;
+            transition: all 100ms linear;
+        }
+
+        .ps {
+             display: flex;
+             flex-direction: column;
+             gap: 0.5em;
+        }
+
+        .anchor {
+            padding: 0.5em;
+             border-radius: 5px;
+             color: #374151b0 !important;
+        }
+
+        .linkGerado {
+             background-color: #c2c2c210;
+             border-radius: 10px;
+             margin-top: 10px;
+        }
+
+        .card {
+            border-radius: 10px;
+            max-height: 170px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .card.expanded {
+            max-height: 1400px;
+        }
+
+        .dropdownContent  {
+             padding-bottom: 25px !important;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-active.disabled {
+            background-color: #dd262615 !important;
+            color: #b23200 !important;
+        }
+        
+        .status-inactive {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .subtitle {
+            color: #6b7280b0;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        #removeBtn {
+            background-color: #ef4444;
+            transition: all 100ms linear;
+        }
+        
+        #removeBtn:hover {
+            background-color: #dc2626;
+            transition: all 100ms linear;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <!-- Card 1 -->
+            <div class="card w-full bg-white shadow-lg p-5 border-l-4 border-red-200">
+                <!-- Cabeçalho -->
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="subtitle">push</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg sm:text-xl font-semibold truncate">push_casa_inteligente_26032025</h2>
+                            <span class="status-badge status-active disabled">Não ativo</span>
+                        </div>
+                    </div>
+                    <button class="toggleDropdown text-gray-500 hover:text-gray-700 transition">
+                        <span class="arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+        
+                <!-- Link Principal -->
+                <div class="mt-2 bg-green-100 p-2 gap-1 rounded flex items-center cardLink disabled">
+                    <span class="text-red-600 ml-1 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.4" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                        </svg>
+                    </span>
+                    <a href="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service" 
+                       target="_blank"
+                       class="text-red-600 ml-2 break-all overflow-hidden overflow-ellipsis hover:underline text-sm sm:text-base"
+                       title="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service">
+                       https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service
+                    </a>
+                </div>
+                
+                <!-- Dropdown Oculto -->
+                <div class="dropdownContent dropdown-content mt-4 mb-4 sm:mb-0">
+                    <div class="ps">
+                        <div>
+                            <p class="text-gray-700 text-sm">Link gerado:</p>
+                            <div class="linkGerado flex items-center gap-2 rounded">
+                                <a href="#" class="anchor break-all whitespace-normal flex-1 min-w-0 pointer-events-none text-xs sm:text-sm">https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service</a>
+                                <button data-link="https://youtube.com.br" class="copy flex flex-row gap-1 align-center items-center h-10 sm:h-12">
+                                    <div class="lottie-container" style="width: 30px; height: 30px;"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 text-sm">Contador:0</p>
+                        <p class="text-gray-700 text-sm">Criado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Editado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Clicks totais: 0</p>
+                    </div>
+                    <hr>
+        
+                    <!-- Botões -->
+                    <div class="flex flex-col sm:flex-row gap-2 mt-4">
+                        <button id="mainBtn" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">
+                            Editar link
+                        </button>
+                        <button id="secondaryBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 flex gap-2 justify-center items-center">
+                            Detalhamento de clicks
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                            </svg>
+                        </button>
+                        <button id="removeBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 flex gap-2 justify-center items-center">
+                            Remover
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card w-full bg-white shadow-lg p-5">
+                <!-- Cabeçalho -->
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="subtitle">push</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg sm:text-xl font-semibold truncate">push_casa_inteligente_26032025</h2>
+                            <span class="status-badge status-active">Ativo</span>
+                        </div>
+                    </div>
+                    <button class="toggleDropdown text-gray-500 hover:text-gray-700 transition">
+                        <span class="arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+        
+                <!-- Link Principal -->
+                <div class="mt-2 bg-green-100 p-2 gap-1 rounded flex items-center cardLink">
+                    <span class="text-green-600 ml-1 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.4" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                        </svg>
+                    </span>
+                    <a href="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service" 
+                       target="_blank"
+                       class="text-green-600 ml-2 break-all overflow-hidden overflow-ellipsis hover:underline text-sm sm:text-base"
+                       title="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service">
+                       https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service
+                    </a>
+                </div>
+                
+                <!-- Dropdown Oculto -->
+                <div class="dropdownContent dropdown-content mt-4 mb-4 sm:mb-0">
+                    <div class="ps">
+                        <div>
+                            <p class="text-gray-700 text-sm">Link gerado:</p>
+                            <div class="linkGerado flex items-center gap-2 rounded">
+                                <a href="#" class="anchor break-all whitespace-normal flex-1 min-w-0 pointer-events-none text-xs sm:text-sm">https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service</a>
+                                <button data-link="https://youtube.com.br" class="copy flex flex-row gap-1 align-center items-center h-10 sm:h-12">
+                                    <div class="lottie-container" style="width: 30px; height: 30px;"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 text-sm">Contador:0</p>
+                        <p class="text-gray-700 text-sm">Criado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Editado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Clicks totais: 0</p>
+                    </div>
+                    <hr>
+        
+                    <!-- Botões -->
+                    <div class="flex flex-col sm:flex-row gap-2 mt-4">
+                        <button id="mainBtn" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">
+                            Editar link
+                        </button>
+                        <button id="secondaryBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 flex gap-2 justify-center items-center">
+                            Detalhamento de clicks
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                            </svg>
+                        </button>
+                        <button id="removeBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 flex gap-2 justify-center items-center">
+                            Remover
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card w-full bg-white shadow-lg p-5">
+                <!-- Cabeçalho -->
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="subtitle">push</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg sm:text-xl font-semibold truncate">push_casa_inteligente_26032025</h2>
+                            <span class="status-badge status-active">Ativo</span>
+                        </div>
+                    </div>
+                    <button class="toggleDropdown text-gray-500 hover:text-gray-700 transition">
+                        <span class="arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+        
+                <!-- Link Principal -->
+                <div class="mt-2 bg-green-100 p-2 gap-1 rounded flex items-center cardLink">
+                    <span class="text-green-600 ml-1 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.4" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                        </svg>
+                    </span>
+                    <a href="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service" 
+                       target="_blank"
+                       class="text-green-600 ml-2 break-all overflow-hidden overflow-ellipsis hover:underline text-sm sm:text-base"
+                       title="https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service">
+                       https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service
+                    </a>
+                </div>
+                
+                <!-- Dropdown Oculto -->
+                <div class="dropdownContent dropdown-content mt-4 mb-4 sm:mb-0">
+                    <div class="ps">
+                        <div>
+                            <p class="text-gray-700 text-sm">Link gerado:</p>
+                            <div class="linkGerado flex items-center gap-2 rounded">
+                                <a href="#" class="anchor break-all whitespace-normal flex-1 min-w-0 pointer-events-none text-xs sm:text-sm">https://h5-or.imoulife.com/webFront/Intelbras9be0d3bb_Intelbrasphone25aa/Vip/index.html#/service</a>
+                                <button data-link="https://youtube.com.br" class="copy flex flex-row gap-1 align-center items-center h-10 sm:h-12">
+                                    <div class="lottie-container" style="width: 30px; height: 30px;"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 text-sm">Contador:0</p>
+                        <p class="text-gray-700 text-sm">Criado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Editado em: --/--/----</p>
+                        <p class="text-gray-700 text-sm">Clicks totais: 0</p>
+                    </div>
+                    <hr>
+        
+                    <!-- Botões -->
+                    <div class="flex flex-col sm:flex-row gap-2 mt-4">
+                        <button id="mainBtn" class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">
+                            Editar link
+                        </button>
+                        <button id="secondaryBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 flex gap-2 justify-center items-center">
+                            Detalhamento de clicks
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                            </svg>
+                        </button>
+                        <button id="removeBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 flex gap-2 justify-center items-center">
+                            Remover
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButtons = document.querySelectorAll(".toggleDropdown");
+
+    toggleButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const card = this.closest(".card");
+            const dropdownContent = card.querySelector(".dropdownContent");
+            const arrow = card.querySelector(".arrow");
+
+            dropdownContent.classList.toggle("show");
+            arrow.classList.toggle("rotate");
+            card.classList.toggle("expanded");
+        });
+    });
+});
+    </script>
+    
+    <script>
+const containers = document.querySelectorAll(".lottie-container");
+
+containers.forEach((container, index) => {
+    const animation = lottie.loadAnimation({
+        container: container,
+        renderer: "svg", 
+        loop: false,
+        autoplay: false,
+        path: "animation2.json"
+    });
+
+    container.animation = animation;
+
+    const button = container.closest("button.copy");
+
+    if (button) {
+        button.addEventListener("click", function() {
+            copyLink(this, container); 
+        });
+    }
+
+    function copyLink(btn, container) {
+        const linkToBeCopied = btn.getAttribute("data-link"); 
+
+        navigator.clipboard.writeText(linkToBeCopied)
+            .then(() => {
+                initAnimationCopyLottie(container); 
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+            });
+    }
+
+    function initAnimationCopyLottie(container) {
+        container.animation.goToAndPlay(0, true); 
+    }
+});
+</script>
+</body>
+</html>
