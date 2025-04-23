@@ -34,7 +34,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style={Platform.OS === 'ios' ? 'dark' : 'light'} backgroundColor="white" />
+      <StatusBar style={Platform.OS === 'ios' ? 'dark' : 'light'} backgroundColor="#f6f6f6" />
     </ThemeProvider>
   );
 }

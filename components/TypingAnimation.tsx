@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, Platform, Pressable } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import Animated, { 
@@ -9,11 +9,15 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated';
 
+import * as Speech from 'expo-speech';
+import striptags from 'striptags';
+
 import RenderHTML from './RenderHTML';
 import { SvgXml } from 'react-native-svg'; 
 import useStore from '../stores/store';
 import sparkleSvg from '../assets/svg/sparkle.js';
 import audioSvg from '../assets/svg/audio.js';
+import pauseSvg from '../assets/svg/pause.js';
 import getHoursAndMinutesFormatted from '@/utils/getHoursAndMinutesFormatted';
 
 interface Message {
@@ -37,8 +41,11 @@ const TypingAnimation = ({
   const [clickedButton, setClickedButton] = useState<ButtonContinue | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [showFollowUp, setShowFollowUp] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // reading out loud
+
   const { width } = useWindowDimensions();
   const {isUser,content,hour } = messageObj
+
   // Animations for the main message
   const messageOpacity = useSharedValue(0);
   const messageTranslateY = useSharedValue(-20);
@@ -49,7 +56,6 @@ const TypingAnimation = ({
 
   const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal,addMessage } = useStore();
 
-  // Animation styles
   const messageAnimatedStyle = useAnimatedStyle(() => ({
     opacity: messageOpacity.value,
     transform: [{ translateY: messageTranslateY.value }],
@@ -60,6 +66,29 @@ const TypingAnimation = ({
     transform: [{ translateY: followUpTranslateY.value }],
   }));
 
+  const stripHTML = (html: string) => {
+    return html.replace(/<[^>]+>/g, '');
+  };
+
+  const playAudio = (htmlText: string) => {
+    const plainText = stripHTML(htmlText);
+  
+    if (isPlaying) {
+      Speech.stop();
+      setIsPlaying(false);
+    } else {
+      setIsPlaying(true);
+      Speech.speak(plainText, {
+        language: 'pt-BR',
+        pitch: 1.0,
+        rate: 1.0,
+        onDone: () => setIsPlaying(false),
+        onStopped: () => setIsPlaying(false),
+        onError: () => setIsPlaying(false),
+      });
+    }
+  };
+
   useEffect(() => {
     // Animate main message in without scrolling
     messageOpacity.value = withTiming(1, { duration: 500 });
@@ -68,15 +97,16 @@ const TypingAnimation = ({
     if (counterUserMessages >= 3 && !isUser && isLastMessage) {
       sethasUserNeedsToChooseContinueOrNot(true);
   
+      // Delay to ensure the main message is rendered
       setTimeout(() => {
         setShowFollowUp(true);
         followUpOpacity.value = withTiming(1, { duration: 300 });
         followUpTranslateY.value = withTiming(0, { duration: 300 });
   
-        // Only scroll when follow-up appears
-        runOnJS(() => {
-          scrollViewReff.current?.scrollToEnd({ animated: true });
-        })();
+        // Add a slightly longer delay to ensure the follow-up is rendered
+        setTimeout(() => {
+          runOnJS(scrollViewReff.current?.scrollToEnd)({ animated: true });
+        }, 500); // Increased delay from 100 to 500
       }, 500);
     }
   }, []);
@@ -109,8 +139,18 @@ const TypingAnimation = ({
       ]}>
         {!isUser && 
         <View style={styles.iconRow}>
-        <SvgXml xml={sparkleSvg} width={17} height={17} style={styles.sparkleIcon}/>
-        <SvgXml xml={audioSvg} width={17} height={17} style={styles.audioIcon}/> 
+        <SvgXml xml={sparkleSvg} width={18} height={18} style={styles.sparkleIcon}/>
+        {
+          // por enquanto este ícone não será implementado
+          false && <Pressable onPress={() => playAudio(content)}>
+            <SvgXml 
+              xml={isPlaying ? pauseSvg : audioSvg} 
+              width={17} 
+              height={17} 
+              style={styles.audioIcon} 
+            />
+        </Pressable>
+        }
         </View>}
         <View style={[styles.messageBox, isUser ? styles.userMessage : styles.botMessage]}>
           {/* <Text style={styles.text}>{txt}</Text> */}
@@ -150,15 +190,13 @@ const TypingAnimation = ({
 const styles = StyleSheet.create({
   messageContainer: {
     width: '100%',
-    marginVertical: 14,
-  },
+    },
   userContainer: {
+    marginTop:12,
     alignSelf: 'flex-end',
-    marginRight: 28,
   },
   botContainer: {
     alignSelf: 'flex-start',
-    marginLeft: 10,
   },
   messageBox: {
     paddingVertical: 12,
@@ -168,6 +206,9 @@ const styles = StyleSheet.create({
   userMessage: {
     backgroundColor: '#ececec',
   },
+  botMessage:{
+    paddingHorizontal: 0,
+  },
   text: {
     fontSize: 16,
     color: '#455154',
@@ -176,7 +217,8 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: "space-between", 
     width: "100%", 
-    paddingHorizontal: 10, 
+    marginTop:25,
+    marginBottom: -20
   },
   time: {
     fontSize: 12,
@@ -186,21 +228,20 @@ const styles = StyleSheet.create({
   },
   botTime: {
     alignSelf: 'flex-start',
-    marginLeft: 12,
     marginTop: 4,
     fontSize: 12,
-    color: '#666',
+    color: 'rgba(69, 81, 84, 1)',
     opacity: 0.5
   },
   userTime: {
     alignSelf: 'flex-end',
     marginTop: 4,
     fontSize: 12,
-    color: '#666',
+    color: 'rgba(69, 81, 84, 1)',
   },
   followUpContainer: {
     marginTop: 8,
-    marginLeft: 20,
+    marginBottom: 48,
     opacity: 0, 
   },
   followUpText: {

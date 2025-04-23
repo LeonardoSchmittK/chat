@@ -27,27 +27,27 @@ export default function TabLayout() {
             </View>
           ),
           headerStyle: {
-            backgroundColor: 'white',
+            backgroundColor: '#f6f6f6',
             elevation: 0,
             shadowOpacity: 0,
           },
           headerTitleAlign: 'center',
-          headerTintColor: "#2C2C2C",
+          headerTintColor: "#f6f6f6",
           headerBackTitle: 'Voltar',
 
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()} style={{ paddingLeft: 15 }}>
+            <TouchableOpacity onPress={() => router.push("/")} style={{ paddingLeft: 15 }}>
               <Ionicons name="chevron-back" size={24} color="#2C2C2C" />
             </TouchableOpacity>
           ),
 
-          headerRight: () => (
-            <Pressable onPress={() => router.push('/chatHistory')}>
-              <View style={{ marginRight: 15 }}>
-                <SvgXml xml={documentSvg} width={26} height={17} />
-              </View>
-            </Pressable>
-          ),
+          // headerRight: () => (
+          //   <Pressable onPress={() => router.push('/chatHistory')}>
+          //     <View style={{ marginRight: 15 }}>
+          //       <SvgXml xml={documentSvg} width={26} height={17} />
+          //     </View>
+          //   </Pressable>
+          // ),
         }}
       />
 

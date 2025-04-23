@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from "reac
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import useStore from '../stores/store';
 import CustomModal from "./CustomModal";
-
+import salute from "../utils/salute";
+import {router} from "expo-router"
 function InfoBox() {
   const { hasUserSentMessage } = useStore();
   
@@ -17,23 +18,24 @@ function InfoBox() {
 
   return (
     <View style={styles.wholeHeader}>
-      <TouchableOpacity style={styles.container} onPress={() => setTipsModalVisible(true)}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Como obter respostas mais precisas do assistente?</Text>
-        </View>
-        <TouchableOpacity
-          onPress={() => setTipsModalVisible(true)}
-          style={styles.iconButton} 
-        > 
-          <Ionicons name="information-circle" size={16} color="#06CB3F" />
-        </TouchableOpacity>
-      </TouchableOpacity>
+<TouchableOpacity style={styles.container} onPress={() => setTipsModalVisible(true)}>
+  <View style={styles.contentWrapper}>
+    <Text
+      style={styles.text}
+      numberOfLines={1}
+      ellipsizeMode="tail"
+    >
+      Como obter respostas mais precisas do assistente?
+    </Text>
+    <Ionicons name="information-circle" size={16} color="#06CB3F" style={styles.icon} />
+  </View>
+</TouchableOpacity>
 
       <Text style={styles.infoText}>Este chat ainda está em período de teste.</Text>
 
       {!hasUserSentMessage && (
         <View style={styles.chatBox}>
-          <Text style={styles.greeting}>Olá, <Text style={styles.bold}>Carlos!!</Text></Text>
+          <Text style={styles.greeting}>Olá, <Text style={styles.bold}>{salute()}!</Text></Text>
           <Text style={styles.subText}>Como posso te ajudar?</Text>
         </View>
       )}
@@ -75,7 +77,10 @@ function InfoBox() {
         primaryButtonText="Continuar"
         onPrimaryPress={() => setTermsModalVisible(false)}
         secondaryButtonText="Voltar"
-        onSecondaryPress={() => setTermsModalVisible(false)}
+        onSecondaryPress={() => {
+          setTermsModalVisible(false);
+          router.push("/");
+        }}
       />
 
       {/* Tips Modal */}
@@ -110,7 +115,7 @@ function InfoBox() {
       <CustomModal
         visible={openRatingModal}
         onClose={() => setOpenRatingModal(false)}
-        title="Dicas para respostas mais assertivas com o Assistente Mibo:"
+        title="Sua opinião importa!"
         content={
           <View style={{ width: '100%' }}>
             <Text style={{ marginBottom: 16, textAlign: "center" }}>
@@ -171,41 +176,64 @@ function InfoBox() {
 
 const styles = StyleSheet.create({
   chatBox: {
+    position: "absolute",
+    top: 100,
+    left: 0,
+    right: 0,
+    padding: 16,
+    zIndex: 10,
     alignItems: "center",
-    marginTop: 20,
   },
   greeting: {
-    fontSize: 24,
+    fontSize: 20 ,
     color: "#333",
   },
   bold: {
     fontWeight: "bold",
   },
   subText: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: 14 ,
+    color: "rgba(69, 81, 84, 1)",
   },
   wholeHeader: {
     marginTop: 54,
+    padding:16,
+
   },
   infoText: {
     fontSize: 12,
-    color: "gray",
     alignSelf: "center",
-    marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 12,
+    marginTop: 15,
+    
+    color:"#979797"
   },
   container: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start", 
-    backgroundColor: "#F7F7F7",
+    justifyContent: "center", 
+    backgroundColor: "#f7f7f7",
     padding: 12,
     borderRadius: 8,
-    maxWidth: "90%",
+    width: "99%",
     alignSelf: "center",
-    elevation: 1,
-    shadowColor: "#000",
+
+    shadowColor: "rgba(118, 118, 128, 0.67)",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 40,
+  },
+  
+  contentWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    gap: 6 
   },
   userContainer: {
     flexDirection: "row-reverse", 

@@ -28,10 +28,11 @@ export default function ChatScreen() {
   const { messages, addMessage, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot, resetStore,openRatingModal,setOpenRatingModal  } = useStore();
   const [modalVisible, setModalVisible] = useState(true);
   const [rating, setRating] = useState(0);
-  
+  const [inputHeight, setInputHeight] = useState(45);
+
   useEffect(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
-  }, [messages]);
+  }, [messages, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot]);
 
   function addUserMessage() {
 
@@ -84,7 +85,7 @@ export default function ChatScreen() {
       'keyboardDidHide',
       () => {
         setIsKeyboardVisible(false);
-        // scrollViewRef.current?.scrollToEnd({ animated: true });
+        scrollViewRef.current?.scrollToEnd({ animated: true });
       },
     );
 
@@ -101,8 +102,7 @@ export default function ChatScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 70} 
     >
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
-
+      <StatusBar barStyle="dark-content" backgroundColor="#f6f6f6" />
       
       <KeyboardAwareScrollView 
         contentContainerStyle={styles.messagesContainer}
@@ -154,13 +154,18 @@ export default function ChatScreen() {
         <View style={styles.inputContainerBox}>
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { height: Math.max(45, inputHeight) }]}
               placeholder="Digite a sua mensagem"
               placeholderTextColor="#aaa"
               value={message}
               onChangeText={setMessage}
+              onContentSizeChange={(event) => {
+                const newHeight = event.nativeEvent.contentSize.height;
+                setInputHeight(newHeight);
+              }}
               onSubmitEditing={addUserMessage}
               returnKeyType="send"
+              multiline
             />
           </View>
           <TouchableOpacity
@@ -170,6 +175,7 @@ export default function ChatScreen() {
                 backgroundColor: loading || !message ? "#9FD0A1" : "#07862B"
               },
             ]}
+
             onPress={addUserMessage}
             disabled={loading || hasUserNeedsToChooseContinueOrNot}
           >
@@ -190,21 +196,19 @@ const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     width:"100%",
-    height: windowHeight + statusBarHeight -20,
-    backgroundColor: "#fff",
+    height: windowHeight+20,
+    backgroundColor: "#f6f6f6",
     flexDirection:"column",
-    marginTop:-50
+    marginTop:-75,
   },
   chatContainer: {
     flexGrow:1,
-    ...(Platform.OS === "web" ? { width: "50%" } : { width: "100%" }), 
+    ...(Platform.OS === "web" ? { width: "100%" } : { width: "100%" }), 
     margin:"auto",
-   
+    paddingHorizontal:16,
   },
   messagesContainer: {
     flexGrow: 1,
-    paddingBottom: 20,
-    paddingTop: 10,
   },
   messageBubble: {
     maxWidth: "95%",
@@ -218,12 +222,12 @@ const styles = StyleSheet.create({
   inputContainerBox: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
     paddingBottom: Platform.OS === "ios" ? 20 : 40,
     alignSelf: "center",
     maxWidth:"100%",
+    padding:16,
     ...(Platform.OS === "web"
-      ? { width: screenWidth < 768 ? "100%" : "40%" }
+      ? { width: screenWidth < 768 ? "100%" : "100%" }
       : { width: "100%" }),
   },
   
@@ -231,15 +235,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#EDEDED",
+    backgroundColor: "rgba(236, 236, 236, 1)",
     borderRadius: 12,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
   },
   input: {
     flex: 1,
     height: 45,
     fontSize: 16,
-    color: "#333",
+    color: "#979797",
+    paddingVertical:12,
     ...(Platform.OS === "web" ? { outlineStyle: "none" } : {}), 
   },
   sendButton: {
@@ -267,13 +272,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline', 
   },
   loadingAnimation: {
-    width: Platform.OS === "web" ? 50 : 100, 
-    height: Platform.OS === "web" ? 25 : 50, 
-    transform: [{ scale: Platform.OS === "web" ? 1 : 2 }]
   },
   loadingBox: {
-    width:150,
-    height: 150
+    width:"24%",
+    height:42,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:14,
+    transform:"scale(2)",
+    marginLeft:-16
   }
-
 });
