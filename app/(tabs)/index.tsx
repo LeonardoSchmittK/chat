@@ -11,6 +11,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 import bolaBanner from '@/assets/svg/bola-banner.js';
 import DropdownCard from '@/components/DropdownCard';
+import BolaBanner from '@/assets/svg/bola-banner';
+import FAQDropdowns from '@/components/DropdownCard';
+import DispositivosIzyDropdown from '@/components/DropdownCard';
+import DispositivosMiboDropdown from '@/components/DropdownMibo';
 
 export default function HomeScreen() {
   
@@ -33,17 +37,17 @@ export default function HomeScreen() {
 
       <View style={styles.imageWrapper}>
       
-    {/* <Image
-      source={require('@/assets/svg/bola-banner.png')}
+    <Image
+      source={require('@/assets/images/bola-banner.png')}
       style={styles.image}
       resizeMode="contain"
-    /> */}
-        <SvgXml key={Date.now(  )} xml={bolaBanner} width={120} height={120}/>
-
+    />
+        {/* <SvgXml xml={bolaBanner} width={120} height={120} /> */}
     </View>
 </Pressable>
-      <DropdownCard/>
-      <DropdownCard/>
+      <DispositivosIzyDropdown/>
+      <DispositivosMiboDropdown/>
+      {/* <FAQDropdowns/> */}
       </View>
       </ThemedView>
     </SafeAreaView>
@@ -99,12 +103,14 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 40,
   },
+  image:{
+    position:"absolute",
+    top:-100,
+    left:0,
+    width:200,
+    height: 300,
+  },
   imageWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginRight: -30,
-    transform:"scale(1.2)",
-    flex:1
   },
   upperTitleCard: {
     display: "flex",

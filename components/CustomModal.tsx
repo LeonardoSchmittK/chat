@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Animated,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 
 interface CustomModalProps {
   visible: boolean;
@@ -56,30 +57,33 @@ const CustomModal: React.FC<CustomModalProps> = ({
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={onClose}>
-        <Animated.View
-          style={[
-            styles.modalContainer,
-            { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
-          ]}
-        >
-          <Text style={styles.modalTitle}>{title}</Text>
-          <View>{content}</View>
-          <View style={styles.buttonContainer}>
-            {primaryButtonText && (
-              <TouchableOpacity style={styles.primaryButton} onPress={onPrimaryPress || onClose}>
-                <Text style={styles.primaryButtonText}>{primaryButtonText}</Text>
-              </TouchableOpacity>
-            )}
-            {secondaryButtonText && (
-              <TouchableOpacity style={styles.secondaryButton} onPress={onSecondaryPress || onClose}>
-                <Text style={styles.secondaryButtonText}>{secondaryButtonText}</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </Animated.View>
+        <TouchableWithoutFeedback onPress={() => {}}>
+          <Animated.View
+            style={[
+              styles.modalContainer,
+              { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
+            ]}
+          >
+            <Text style={styles.modalTitle}>{title}</Text>
+            <View>{content}</View>
+            <View style={styles.buttonContainer}>
+              {primaryButtonText && (
+                <TouchableOpacity style={styles.primaryButton} onPress={onPrimaryPress || onClose}>
+                  <Text style={styles.primaryButtonText}>{primaryButtonText}</Text>
+                </TouchableOpacity>
+              )}
+              {secondaryButtonText && (
+                <TouchableOpacity style={styles.secondaryButton} onPress={onSecondaryPress || onClose}>
+                  <Text style={styles.secondaryButtonText}>{secondaryButtonText}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </Animated.View>
+        </TouchableWithoutFeedback>
       </TouchableOpacity>
     </Modal>
   );
+  
 };
 
 const styles = StyleSheet.create({

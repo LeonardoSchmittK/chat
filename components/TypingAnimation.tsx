@@ -33,10 +33,9 @@ const TypingAnimation = ({
   isLastMessage,
   scrollViewReff
 }: { 
-  messageObj:Message,
+  messageObj: Message,
   isLastMessage: boolean; 
-  scrollViewReff:any
-
+  scrollViewReff: any
 }) => {
   const [clickedButton, setClickedButton] = useState<ButtonContinue | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -44,88 +43,82 @@ const TypingAnimation = ({
   const [isPlaying, setIsPlaying] = useState(false); // reading out loud
 
   const { width } = useWindowDimensions();
-  const {isUser,content,hour } = messageObj
+  const { isUser, content, hour } = messageObj;
 
   // Animations for the main message
   const messageOpacity = useSharedValue(0);
   const messageTranslateY = useSharedValue(-20);
-  
+
   // Animations for the follow-up content
   const followUpOpacity = useSharedValue(0);
   const followUpTranslateY = useSharedValue(20);
 
-  const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal,addMessage } = useStore();
+  const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal, addMessage } = useStore();
 
   const messageAnimatedStyle = useAnimatedStyle(() => ({
     opacity: messageOpacity.value,
     transform: [{ translateY: messageTranslateY.value }],
   }));
-  
+
   const followUpAnimatedStyle = useAnimatedStyle(() => ({
     opacity: followUpOpacity.value,
     transform: [{ translateY: followUpTranslateY.value }],
   }));
 
-  const stripHTML = (html: string) => {
-    return html.replace(/<[^>]+>/g, '');
-  };
-
-  const playAudio = (htmlText: string) => {
-    const plainText = stripHTML(htmlText);
+  const playAudio = async (htmlContent: string) => {
+    const cleanText = striptags(htmlContent);
+    if (!cleanText.trim()) return;
   
     if (isPlaying) {
-      Speech.stop();
+      await Speech.stop();
       setIsPlaying(false);
     } else {
-      setIsPlaying(true);
-      Speech.speak(plainText, {
+      Speech.speak(cleanText, {
         language: 'pt-BR',
-        pitch: 1.0,
-        rate: 1.0,
+        onStart: () => setIsPlaying(true),
         onDone: () => setIsPlaying(false),
-        onStopped: () => setIsPlaying(false),
-        onError: () => setIsPlaying(false),
+        onError: (err) => {
+          console.error("Speech error:", err);
+          setIsPlaying(false);
+        },
       });
     }
   };
+  
+  
 
   useEffect(() => {
-    // Animate main message in without scrolling
     messageOpacity.value = withTiming(1, { duration: 500 });
     messageTranslateY.value = withTiming(0, { duration: 600 });
-  
-    if (counterUserMessages >= 3 && !isUser && isLastMessage) {
+
+    if (counterUserMessages >= 2 && !isUser && isLastMessage) {
       sethasUserNeedsToChooseContinueOrNot(true);
-  
-      // Delay to ensure the main message is rendered
+
       setTimeout(() => {
         setShowFollowUp(true);
         followUpOpacity.value = withTiming(1, { duration: 300 });
         followUpTranslateY.value = withTiming(0, { duration: 300 });
-  
-        // Add a slightly longer delay to ensure the follow-up is rendered
+
         setTimeout(() => {
           runOnJS(scrollViewReff.current?.scrollToEnd)({ animated: true });
-        }, 500); // Increased delay from 100 to 500
+        }, 500);
       }, 500);
     }
   }, []);
-  
 
-  const handleButtonClick = (button:ButtonContinue) => {
+  const handleButtonClick = (button: ButtonContinue) => {
     setClickedButton(button);
     setIsButtonDisabled(true);
-    addMessage({content:button, isUser:true})
+    addMessage({ content: button, isUser: true });
     if (button === "Não") {
       setUserEndedChat();
       setOpenRatingModal(true);
       scrollViewReff.current?.scrollToEnd({ animated: true });
       return;
     }
-    
-    // When "Sim" is clicked
+
     sethasUserNeedsToChooseContinueOrNot(false);
-    
+
     setTimeout(() => {
       scrollViewReff.current?.scrollToEnd({ animated: true });
     }, 100);
@@ -133,37 +126,28 @@ const TypingAnimation = ({
 
   return (
     <View style={styles.messageContainer}>
-      <Animated.View style={[
-        isUser ? styles.userContainer : styles.botContainer, 
-        messageAnimatedStyle
-      ]}>
-        {!isUser && 
-        <View style={styles.iconRow}>
-        <SvgXml xml={sparkleSvg} width={18} height={18} style={styles.sparkleIcon}/>
-        {
-          // por enquanto este ícone não será implementado
-          false && <Pressable onPress={() => playAudio(content)}>
-            <SvgXml 
-              xml={isPlaying ? pauseSvg : audioSvg} 
-              width={17} 
-              height={17} 
-              style={styles.audioIcon} 
-            />
-        </Pressable>
-        }
-        </View>}
+      <Animated.View style={[isUser ? styles.userContainer : styles.botContainer, messageAnimatedStyle]}>
+        
+        {!isUser && (
+          
+          <View style={styles.iconRow}>
+            <SvgXml xml={sparkleSvg} width={18} height={18}  />
+              {/* <Pressable onPress={() => playAudio(content)}>
+                <SvgXml xml={isPlaying ? pauseSvg : audioSvg} width={17} height={17} />
+              </Pressable> */}
+          </View>
+        )}
         <View style={[styles.messageBox, isUser ? styles.userMessage : styles.botMessage]}>
-          {/* <Text style={styles.text}>{txt}</Text> */}
-          {/* <RenderHtml
-            contentWidth={width}
-            source={{ html: txt }}
-            defaultTextProps={{ selectable: true }}
-        /> */}
-        <RenderHTML txt={content}/>
+          <RenderHtml contentWidth={width} source={{ html: content }} defaultTextProps={{ selectable: true }} tagsStyles={{
+            body: { color: "rgba(69, 81, 84, 1)" },
+            p: { backgroundColor: "red", color: "red" },
+            h6: { fontSize: 16, marginBottom: 10, fontWeight: "normal", lineHeight: 24 },
+            ul: { paddingLeft: 16, marginVertical: 8 },
+            li: { marginBottom: 6, fontSize: 15, color: '#333', lineHeight: 22, paddingLeft: 5 },
+          }} />
         </View>
-        <Text style={[styles.time, isUser ? styles.userTime : styles.botTime]}>{hour}</Text>
       </Animated.View>
-      
+
       {showFollowUp && (
         <Animated.View style={[styles.followUpContainer, followUpAnimatedStyle]}>
           <Text style={styles.followUpText}>Ajudo em algo mais?</Text>
@@ -182,7 +166,22 @@ const TypingAnimation = ({
             </TouchableOpacity>
           </View>
         </Animated.View>
+      
+
+
       )}
+      {
+        isUser ?
+        <Animated.View>
+<Text style={[ styles.userTime]}>{hour}</Text> 
+        </Animated.View>
+        :
+
+        <Animated.View>
+        <Text style={[ styles.botTime]}>{hour}</Text> 
+                </Animated.View>
+      }
+
     </View>
   );
 };
@@ -190,9 +189,9 @@ const TypingAnimation = ({
 const styles = StyleSheet.create({
   messageContainer: {
     width: '100%',
-    },
+  },
   userContainer: {
-    marginTop:12,
+    marginTop: 12,
     alignSelf: 'flex-end',
   },
   botContainer: {
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
   userMessage: {
     backgroundColor: '#ececec',
   },
-  botMessage:{
+  botMessage: {
     paddingHorizontal: 0,
   },
   text: {
@@ -217,32 +216,28 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: "space-between", 
     width: "100%", 
-    marginTop:25,
-    marginBottom: -20
-  },
-  time: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 2,
-    opacity: 0.5
+    marginTop: 25,
+    marginBottom: -32,
+    zIndex:100
   },
   botTime: {
-    alignSelf: 'flex-start',
-    marginTop: 4,
     fontSize: 12,
     color: 'rgba(69, 81, 84, 1)',
-    opacity: 0.5
+    opacity: 0.5,
+    marginTop: -16,
+    marginBottom: 32,
   },
   userTime: {
     alignSelf: 'flex-end',
-    marginTop: 4,
+    marginTop: 8,
     fontSize: 12,
+    opacity: 0.5,
     color: 'rgba(69, 81, 84, 1)',
   },
   followUpContainer: {
     marginTop: 8,
-    marginBottom: 48,
-    opacity: 0, 
+    marginBottom: 12,
+    opacity: 0,
   },
   followUpText: {
     fontSize: 16,

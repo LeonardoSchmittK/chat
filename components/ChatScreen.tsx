@@ -20,10 +20,12 @@ import useStore from '../stores/store';
 import LottieView from 'lottie-react-native'; 
 import CustomModal from "./CustomModal";
 import getHoursAndMinutesFormatted from "@/utils/getHoursAndMinutesFormatted";
+import axios from "axios"
 
 export default function ChatScreen() {
   const [message, setMessage] = useState(""); 
   const [loading, setLoading] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
   const { messages, addMessage, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot, resetStore,openRatingModal,setOpenRatingModal  } = useStore();
   const [modalVisible, setModalVisible] = useState(true);
@@ -34,35 +36,43 @@ export default function ChatScreen() {
       scrollViewRef.current?.scrollToEnd({ animated: true });
   }, [messages, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot]);
 
-  function addUserMessage() {
-
+  async function addUserMessage() {
     if (message.trim() !== "") {
-      setTimeout(() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-      addMessage({content:message,isUser: true});
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+      addMessage({ content: message, isUser: true });
       setMessage("");
       Keyboard.dismiss();
   
       setLoading(true);
+      const startTime = Date.now(); // Start tracking time
   
-      setTimeout(() => {
+      try {
+        const params = new URLSearchParams();
+        params.append('question', message);
+  
+        const response = await axios.post(
+          'http://192.168.10.19:8000/chat',
+          params,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+  
+        const endTime = Date.now(); // Stop tracking time
+        const elapsed = Math.floor((endTime - startTime) / 1000); // in seconds
+  
+        setElapsedTime(elapsed); // Update state with elapsed time
+        addMessage({ content: response.data.response || "Resposta não encontrada", isUser: false });
+  
+      } catch (error) {
+        console.error("Erro na chamada ao backend:", error);
+        addMessage({ content: "Erro ao buscar resposta. Tente novamente.", isUser: false });
+      } finally {
         setLoading(false);
-        addMessage({content:`<div>
-    <h1>Geofencing</h1>
-    <ul>
-        <li>Geofencing is a location-based service.</li>
-        <li>Uses GPS, Wi-Fi, or cellular data.</li>
-        <li>Creates a virtual boundary (geofence).</li>
-        <li>Triggers actions when a device enters or exits the boundary.</li>
-    </ul>
-</div>`,isUser:false});
-        
-        // Scroll to bottom after new message is added
-        setTimeout(() => {
-          scrollViewRef.current?.scrollToEnd({ animated: true });
-        }, 100);
-      }, 4000);
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }
     }
   }
   
@@ -112,7 +122,7 @@ export default function ChatScreen() {
         enableOnAndroid={true}
         enableAutomaticScroll={true}
       >
-        <InfoBox/>
+        <InfoBox elapsedTime={elapsedTime}/>
         <View style={styles.chatContainer} >
           {messages.map((msg, id) => (
             <View 
@@ -257,7 +267,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',  
     alignItems: 'center', 
     padding: 20,
-    marginVertical: 10
+    marginVertical: 32
   },
   endedChatDescription: {
     fontSize: 16,

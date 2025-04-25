@@ -5,16 +5,53 @@ import useStore from '../stores/store';
 import CustomModal from "./CustomModal";
 import salute from "../utils/salute";
 import {router} from "expo-router"
-function InfoBox() {
+
+type InfoBoxProps = {
+  elapsedTime: number;
+};
+
+function InfoBox({ elapsedTime }: InfoBoxProps) {
   const { hasUserSentMessage } = useStore();
   
   // Individual state for each modal
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [termsModalVisible, setTermsModalVisible] = useState(true);
   const [tipsModalVisible, setTipsModalVisible] = useState(false);
-  const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal , openRatingModal} = useStore();
-  
+  const { messages, addMessage, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot, resetStore,openRatingModal,setOpenRatingModal  } = useStore();
+ 
+  const [feedbackText, setFeedbackText] = useState("");
   const [rating, setRating] = useState(0);
+  
+
+
+
+  async function sendFeedback() {
+    try {
+      const response = await fetch("http://192.168.10.19:8000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          question2: JSON.stringify(messages.filter(msg => msg.isUser).map(msg => msg.content)),
+          response: JSON.stringify(messages.filter(msg => !msg.isUser).map(msg => msg.content)),
+          score: rating.toString(),
+          feedback: feedbackText,
+          elapsedTime: elapsedTime.toString(),
+          chat_model: "1",
+        }),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        console.error("Erro ao enviar feedback:", data);
+      } else {
+        console.log("Feedback enviado com sucesso:", data);
+      }
+    } catch (error) {
+      console.error("Erro de conexão ao enviar feedback:", error);
+    }
+  }
 
   return (
     <View style={styles.wholeHeader}>
@@ -91,11 +128,11 @@ function InfoBox() {
         content={
           <View>
             <Text>
-              • <Text style={{ fontWeight: "bold" }}>Descreva o contexto com clareza</Text> – Quanto mais detalhes você fornecer, melhor será a resposta.
+              <Text style={{ fontWeight: "bold" }}>Descreva o contexto com clareza</Text> – Quanto mais detalhes você fornecer, melhor será a resposta.
             </Text>
             <Text>{"\n"}</Text>
             <Text>
-              • <Text style={{ fontWeight: "bold" }}>Seja específico</Text> – Explique o que deseja alcançar para que o Assistente possa considerar sua situação personalizada.
+            <Text style={{ fontWeight: "bold" }}>Seja específico</Text> – Explique o que deseja alcançar para que o Assistente possa considerar sua situação personalizada.
             </Text>
             <Text>{"\n"}</Text>
             <Text><Text style={{ fontWeight: "bold" }}>Evite perguntas genéricas:</Text> Qual a melhor câmera interna?</Text>
@@ -151,22 +188,29 @@ function InfoBox() {
               </View>
             }
            
-            <TextInput
-              placeholder="Digite aqui o seu feedback"
-              style={{
-                backgroundColor: '#ECECEC',
-                borderRadius: 4,
-                padding: 10,
-                marginBottom: 16,
-                height: 100,
-                textAlignVertical: 'top'
-              }}
-              multiline
-            />
+           <TextInput
+            placeholder="Digite aqui o seu feedback"
+            style={{
+              backgroundColor: '#ECECEC',
+              borderRadius: 4,
+              padding: 10,
+              marginBottom: 16,
+              height: 100,
+              textAlignVertical: 'top'
+            }}
+            onChangeText={setFeedbackText}
+            value={feedbackText}
+            multiline
+          />
           </View>
         }
         primaryButtonText="Continuar"
-        onPrimaryPress={() => setOpenRatingModal(false)}
+        onPrimaryPress={() => {
+          sendFeedback();
+          setOpenRatingModal(false);
+          setRating(0); 
+          setFeedbackText(""); 
+        }}
         secondaryButtonText="Voltar"
         onSecondaryPress={() => setOpenRatingModal(false)}
       />
