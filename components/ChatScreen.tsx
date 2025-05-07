@@ -22,36 +22,41 @@ import CustomModal from "./CustomModal";
 import getHoursAndMinutesFormatted from "@/utils/getHoursAndMinutesFormatted";
 import axios from "axios"
 
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isAndroid = /Android/.test(navigator.userAgent);
+const isPc = !isIos && !isAndroid
+
 export default function ChatScreen() {
   const [message, setMessage] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
-  const { messages, addMessage, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot, resetStore,openRatingModal,setOpenRatingModal  } = useStore();
+  const { messages, addMessage,setUserEndedChat, setForceChatByUser, hasUserEndedChat,setShowFollowUp,sethasUserNeedsToChooseContinueOrNot, hasUserNeedsToChooseContinueOrNot, resetStore,openRatingModal,setOpenRatingModal,setUserExit  } = useStore();
   const [modalVisible, setModalVisible] = useState(true);
   const [rating, setRating] = useState(0);
+  const [forceEndUser, setForceEndUser] = useState(false);
   const [inputHeight, setInputHeight] = useState(45);
-
   useEffect(() => {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
+      scrollViewRef.current?.scrollToEnd(true );
   }, [messages, hasUserEndedChat, hasUserNeedsToChooseContinueOrNot]);
 
   async function addUserMessage() {
     if (message.trim() !== "") {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
+      scrollViewRef.current?.scrollToEnd(true);
       addMessage({ content: message, isUser: true });
       setMessage("");
       Keyboard.dismiss();
-  
+      
       setLoading(true);
-      const startTime = Date.now(); // Start tracking time
+      const startTime = Date.now();
   
       try {
         const params = new URLSearchParams();
         params.append('question', message);
+        params.append('chat_model', "1");
   
-        const response = await axios.post(
-          'http://192.168.10.19:8000/chat',
+        const fetchAnswer = axios.post(
+          'http://192.168.10.49:8000/api/chat/',
           params,
           {
             headers: {
@@ -60,21 +65,45 @@ export default function ChatScreen() {
           }
         );
   
-        const endTime = Date.now(); // Stop tracking time
-        const elapsed = Math.floor((endTime - startTime) / 1000); // in seconds
+        // Create a timeout promise
+        const timeout = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout')), 30000) // 30 seconds
+        );
   
-        setElapsedTime(elapsed); // Update state with elapsed time
-        addMessage({ content: response.data.response || "Resposta não encontrada", isUser: false });
+        // Race between fetch and timeout
+        const response = await Promise.race([fetchAnswer, timeout]);
   
+        if (response && (response as any).data) {
+          const endTime = Date.now();
+          const elapsed = Math.floor((endTime - startTime) / 1000);
+          setElapsedTime(elapsed);
+          if((response as any).data.special_action == "signal_chat_finish") {
+            // addMessage({ content: "", isUser: true, forceEnd:true });
+            addMessage({ content: "<h6>Finalizando atendimento...</h6>", isUser: false });
+            setUserExit(true)
+            return
+          }
+          addMessage({ content: (response as any).data.response || "Resposta não encontrada", isUser: false });
+        }
+        
       } catch (error) {
         console.error("Erro na chamada ao backend:", error);
-        addMessage({ content: "Erro ao buscar resposta. Tente novamente.", isUser: false });
+  
+        // If the error is a timeout, show a fallback message
+        if ((error as any).message === 'Timeout') {
+          addMessage({ content: "<h6>Tempo de resposta excedido. Por favor, tente mais tarde.<h6>", isUser: false });
+        } else {
+          addMessage({ content: "<h6>Erro ao buscar resposta. Por favor, Tente novamente mais tarde.<h6>", isUser: false });
+        }
       } finally {
         setLoading(false);
-        scrollViewRef.current?.scrollToEnd({ animated: true });
+        scrollViewRef.current?.scrollToEnd(true);
+        
+
       }
     }
   }
+  
   
 
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -95,7 +124,7 @@ export default function ChatScreen() {
       'keyboardDidHide',
       () => {
         setIsKeyboardVisible(false);
-        scrollViewRef.current?.scrollToEnd({ animated: true });
+        scrollViewRef.current?.scrollToEnd(true);
       },
     );
 
@@ -124,17 +153,24 @@ export default function ChatScreen() {
       >
         <InfoBox elapsedTime={elapsedTime}/>
         <View style={styles.chatContainer} >
-          {messages.map((msg, id) => (
-            <View 
-              key={id} 
-              style={[
-                styles.messageBubble,
-                msg.isUser ? styles.userMessage : styles.botMessage
-              ]}
-            >
-              <TypingAnimation messageObj={msg} isLastMessage={id === messages.length - 1} scrollViewReff={scrollViewRef} />
-            </View>
-          ))}
+
+        {messages
+  .map((msg, id) => (
+    <View 
+      key={id} 
+      style={[
+        styles.messageBubble,
+        msg.isUser ? styles.userMessage : styles.botMessage
+      ]}
+    >
+      <TypingAnimation 
+        messageObj={msg} 
+        isLastMessage={id === messages.length - 1} 
+        scrollViewReff={scrollViewRef} 
+      />
+    </View>
+))}
+
 
           {loading && (
             <View style={styles.loadingBox}>
@@ -163,20 +199,25 @@ export default function ChatScreen() {
       {!hasUserNeedsToChooseContinueOrNot && (
         <View style={styles.inputContainerBox}>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, { height: Math.max(45, inputHeight) }]}
-              placeholder="Digite a sua mensagem"
-              placeholderTextColor="#aaa"
-              value={message}
-              onChangeText={setMessage}
-              onContentSizeChange={(event) => {
-                const newHeight = event.nativeEvent.contentSize.height;
-                setInputHeight(newHeight);
-              }}
-              onSubmitEditing={addUserMessage}
-              returnKeyType="send"
-              multiline
-            />
+          <TextInput
+  style={[styles.input, { height: Math.max(45, inputHeight) }]}
+  placeholder="Digite a sua mensagem"
+  placeholderTextColor="#aaa"
+  value={message}
+  onChangeText={setMessage}
+  onContentSizeChange={(event) => {
+    const newHeight = event.nativeEvent.contentSize.height;
+    setInputHeight(newHeight);
+  }}
+  onSubmitEditing={addUserMessage}
+  returnKeyType="send"
+  multiline
+  onKeyPress={({ nativeEvent }) => {
+    if (Platform.OS === 'web' && nativeEvent.key === 'Enter') {
+      addUserMessage();
+    }
+  }}
+/>
           </View>
           <TouchableOpacity
             style={[
@@ -197,6 +238,9 @@ export default function ChatScreen() {
   );
 }
 
+
+
+
 const { height: screenHeight } = Dimensions.get('screen');
 const windowHeight = Dimensions.get('window').height;
 const statusBarHeight = StatusBar.currentHeight || 0;
@@ -205,7 +249,7 @@ const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
-    width:"100%",
+    width: "100%",
     height: windowHeight+20,
     backgroundColor: "#f6f6f6",
     flexDirection:"column",
@@ -213,7 +257,7 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flexGrow:1,
-    ...(Platform.OS === "web" ? { width: "100%" } : { width: "100%" }), 
+    width:isPc ? "50%" : "100%",
     margin:"auto",
     paddingHorizontal:16,
   },
@@ -232,13 +276,11 @@ const styles = StyleSheet.create({
   inputContainerBox: {
     flexDirection: "row",
     alignItems: "center",
-    paddingBottom: Platform.OS === "ios" ? 20 : 40,
+    paddingBottom: isIos ? 20 : 40,
     alignSelf: "center",
     maxWidth:"100%",
     padding:16,
-    ...(Platform.OS === "web"
-      ? { width: screenWidth < 768 ? "100%" : "100%" }
-      : { width: "100%" }),
+    width:isPc ? "50%" : "100%",
   },
   
   inputContainer: {

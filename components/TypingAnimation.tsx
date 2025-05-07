@@ -41,6 +41,7 @@ const TypingAnimation = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [showFollowUp, setShowFollowUp] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false); // reading out loud
+  const [showHour, setShowHour] = useState(false);
 
   const { width } = useWindowDimensions();
   const { isUser, content, hour } = messageObj;
@@ -48,12 +49,15 @@ const TypingAnimation = ({
   // Animations for the main message
   const messageOpacity = useSharedValue(0);
   const messageTranslateY = useSharedValue(-20);
-
+  const hourOpacity = useSharedValue(0);
+  const hourAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: hourOpacity.value,
+  }));
   // Animations for the follow-up content
   const followUpOpacity = useSharedValue(0);
   const followUpTranslateY = useSharedValue(20);
 
-  const { counterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal, addMessage } = useStore();
+  const { counterUserMessages,setCounterUserMessages, setUserEndedChat, sethasUserNeedsToChooseContinueOrNot, setOpenRatingModal, addMessage,userExit,setUserExit } = useStore();
 
   const messageAnimatedStyle = useAnimatedStyle(() => ({
     opacity: messageOpacity.value,
@@ -88,17 +92,25 @@ const TypingAnimation = ({
   
 
   useEffect(() => {
-    messageOpacity.value = withTiming(1, { duration: 500 });
+    messageOpacity.value = withTiming(1, { duration: 500 }, (isFinished) => {
+      if (isFinished) {
+        runOnJS(setShowHour)(true);
+        hourOpacity.value = withTiming(1, { duration: 500 });
+      }
+    });
+  
     messageTranslateY.value = withTiming(0, { duration: 600 });
 
-    if (counterUserMessages >= 2 && !isUser && isLastMessage) {
+    if (userExit || (counterUserMessages >= 2 && !isUser && isLastMessage) ) {
       sethasUserNeedsToChooseContinueOrNot(true);
-
+      let newCounterMessages = counterUserMessages-2
+      setCounterUserMessages(newCounterMessages)
+      setUserExit(false)
       setTimeout(() => {
         setShowFollowUp(true);
         followUpOpacity.value = withTiming(1, { duration: 300 });
         followUpTranslateY.value = withTiming(0, { duration: 300 });
-
+  
         setTimeout(() => {
           runOnJS(scrollViewReff.current?.scrollToEnd)({ animated: true });
         }, 500);
@@ -140,7 +152,7 @@ const TypingAnimation = ({
         <View style={[styles.messageBox, isUser ? styles.userMessage : styles.botMessage]}>
           <RenderHtml contentWidth={width} source={{ html: content }} defaultTextProps={{ selectable: true }} tagsStyles={{
             body: { color: "rgba(69, 81, 84, 1)" },
-            p: { backgroundColor: "red", color: "red" },
+            p: { paddingVertical: 16,marginBottom:-24 },
             h6: { fontSize: 16, marginBottom: 10, fontWeight: "normal", lineHeight: 24 },
             ul: { paddingLeft: 16, marginVertical: 8 },
             li: { marginBottom: 6, fontSize: 15, color: '#333', lineHeight: 22, paddingLeft: 5 },
@@ -166,21 +178,18 @@ const TypingAnimation = ({
             </TouchableOpacity>
           </View>
         </Animated.View>
-      
-
 
       )}
-      {
-        isUser ?
-        <Animated.View>
-<Text style={[ styles.userTime]}>{hour}</Text> 
-        </Animated.View>
-        :
-
-        <Animated.View>
-        <Text style={[ styles.botTime]}>{hour}</Text> 
-                </Animated.View>
-      }
+   {showHour && (
+  
+<Animated.View style={hourAnimatedStyle}>
+  {isUser ? (
+    <Text style={styles.userTime}>{hour}</Text>
+  ) : (
+    <Text style={styles.botTime}>{hour}</Text>
+  )}
+</Animated.View>)
+}
 
     </View>
   );

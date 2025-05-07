@@ -27,13 +27,13 @@ function InfoBox({ elapsedTime }: InfoBoxProps) {
 
   async function sendFeedback() {
     try {
-      const response = await fetch("http://192.168.10.19:8000/chat", {
+      const response = await fetch("http://192.168.10.49:8000/api/chat/", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          question2: JSON.stringify(messages.filter(msg => msg.isUser).map(msg => msg.content)),
+          questionForFeedback: JSON.stringify(messages.filter(msg => msg.isUser).map(msg => msg.content)),
           response: JSON.stringify(messages.filter(msg => !msg.isUser).map(msg => msg.content)),
           score: rating.toString(),
           feedback: feedbackText,
@@ -64,7 +64,7 @@ function InfoBox({ elapsedTime }: InfoBoxProps) {
     >
       Como obter respostas mais precisas do assistente?
     </Text>
-    <Ionicons name="information-circle" size={16} color="#06CB3F" style={styles.icon} />
+    <Ionicons name="information-circle" size={16} color="#06CB3F"  />
   </View>
 </TouchableOpacity>
 

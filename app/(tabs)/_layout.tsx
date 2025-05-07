@@ -1,8 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, router } from 'expo-router';
 import { TouchableOpacity, View, Text, Pressable, Platform } from 'react-native';
-import { SvgXml } from 'react-native-svg'; 
-import documentSvg from '../../assets/svg/document.js'
 
 export default function TabLayout() {
   return (
@@ -28,8 +26,6 @@ export default function TabLayout() {
           ),
           headerStyle: {
             backgroundColor: '#f6f6f6',
-            elevation: 0,
-            shadowOpacity: 0,
           },
           headerTitleAlign: 'center',
           headerTintColor: "#f6f6f6",
@@ -41,6 +37,8 @@ export default function TabLayout() {
             </TouchableOpacity>
           ),
 
+
+          // HISTÓRICO A SER ADICIONADO EM SEGUIDA
           // headerRight: () => (
           //   <Pressable onPress={() => router.push('/chatHistory')}>
           //     <View style={{ marginRight: 15 }}>

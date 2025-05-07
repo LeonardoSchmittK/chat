@@ -20,13 +20,12 @@ import WebView from 'react-native-webview';
 import { Image } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { Path, SvgXml } from 'react-native-svg';
-import faqDataMibo from './FAQMiboData';
+import faqDataMibo from '@/components/FAQMiboData';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental &&
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -51,18 +50,15 @@ const FAQDropdown: React.FC<FAQItem> = ({ question, answer }) => {
     outputRange: ['0deg', '180deg'],
   });
 
-  // Function to handle image click
   const handleImageClick = (uri: string) => {
     setSelectedImage(uri);
   };
 
-  // Function to render answer content with clickable images
   const renderAnswerContent = () => {
     if (typeof answer === 'string') {
       return <Text style={styles.answerText}>{answer}</Text>;
     }
 
-    // Clone the answer element and modify Image components to be clickable
     return React.cloneElement(answer as React.ReactElement, {
       children: React.Children.map((answer as React.ReactElement).props.children, (child) => {
         if (child?.type === Image && child.props.source?.uri) {
@@ -115,7 +111,45 @@ const FAQDropdown: React.FC<FAQItem> = ({ question, answer }) => {
   );
 };
 
+const CategoryDropdown: React.FC<{ category: any }> = ({ category }) => {
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const rotateAnim = useRef(new Animated.Value(0)).current;
 
+  const toggleDropdown = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded((prev) => !prev);
+
+    Animated.timing(rotateAnim, {
+      toValue: expanded ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const rotate = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
+  return (
+    <View style={styles.categoryContainer}>
+      <TouchableOpacity style={styles.categoryHeader} onPress={toggleDropdown}>
+        <Text style={styles.categoryTitle}>{category.name}</Text>
+        <Animated.View style={[{ transform: [{ rotate }] }, styles.chevronCircle]}>
+          <Entypo name="chevron-down" size={18} color="rgba(22, 49, 52, 1)" />
+        </Animated.View>
+      </TouchableOpacity>
+
+      {expanded && (
+        <View style={styles.categoryContent}>
+          {category.items.map((faq: any) => (
+            <FAQDropdown key={faq.id} {...faq} />
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
 
 const DispositivosIzyDropdown: React.FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -151,8 +185,8 @@ const DispositivosIzyDropdown: React.FC = () => {
 
       {expanded && (
         <ScrollView style={styles.content}>
-          {faqDataMibo.map((faq) => (
-            <FAQDropdown key={faq.id} {...faq} />
+          {faqDataMibo.map((category) => (
+            <CategoryDropdown key={category.id} category={category} />
           ))}
         </ScrollView>
       )}
@@ -162,7 +196,7 @@ const DispositivosIzyDropdown: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width:"100%",
+    width: "100%",
     borderRadius: 8,
     backgroundColor: "#fafafa",
     shadowColor: "rgba(118, 118, 128, 0.67)",
@@ -171,6 +205,9 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     marginBottom: 16,
     overflow: 'hidden',
+  },
+  categoryContainer: {
+    marginBottom: 8,
   },
   innerContainer: {
     backgroundColor: "#f5f5f5",
@@ -183,6 +220,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  categoryHeader: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginHorizontal:16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 6,
+
   },
   innerHeader: {
     padding: 12,
@@ -202,6 +250,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 12,
   },
+  categoryTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#1c2b2d',
+  },
   subtitle: {
     fontSize: 14,
     color: '#4a4a4a',
@@ -211,9 +264,15 @@ const styles = StyleSheet.create({
     maxHeight: 500,
     paddingVertical: 8,
   },
+  categoryContent: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    
+  },
   innerContent: {
     padding: 12,
     paddingTop: 0,
+
   },
   chevronCircle: {
     backgroundColor: "rgba(227, 227, 227, 1)",

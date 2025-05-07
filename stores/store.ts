@@ -4,7 +4,8 @@ import { create } from 'zustand';
 interface Message {
   content: string;
   isUser: boolean;
-  hour?: string
+  hour?: string;
+  forceEnd?:boolean
 }
 
 interface Store {
@@ -13,12 +14,20 @@ interface Store {
   counterUserMessages: number;
   hasUserEndedChat: boolean;
   hasUserNeedsToChooseContinueOrNot: boolean;
-  openRatingModal:boolean,
-  addMessage: (message:Message) => void;
+  openRatingModal: boolean;
+  showFollowUp: boolean;
+  userExit: boolean;
+  forceChatByUser: boolean;
+  addMessage: (message: Message) => void;
   setUserEndedChat: () => void;
   sethasUserNeedsToChooseContinueOrNot: (flag: boolean) => void;
   setOpenRatingModal: (flag: boolean) => void;
   resetStore: () => void;
+  setShowFollowUp: (flag: boolean) => void;
+  setForceChatByUser: (flag: boolean) => void; 
+  setUserExit: (flag: boolean) => void; 
+  setCounterUserMessages : (c:number) => void
+
 }
 
 const useStore = create<Store>((set) => ({
@@ -26,8 +35,11 @@ const useStore = create<Store>((set) => ({
   hasUserSentMessage: false,
   counterUserMessages: 0,
   hasUserEndedChat: false,
-  hasUserNeedsToChooseContinueOrNot:false,
-  openRatingModal:false,
+  hasUserNeedsToChooseContinueOrNot: false,
+  openRatingModal: false,
+  showFollowUp: false,
+  forceChatByUser: false,
+  userExit:false,
   addMessage: ({ content, isUser }: Omit<Message, 'hour'>) =>
     set((state) => {
       const hour = getHoursAndMinutesFormatted(); 
@@ -39,20 +51,26 @@ const useStore = create<Store>((set) => ({
         counterUserMessages: newMessages.filter(msg => msg.isUser).length
       };
     }),
-  setUserEndedChat: () => 
-    set(() => ({ hasUserEndedChat: true })),
-  setOpenRatingModal: (flag) => 
-    set(() => ({ openRatingModal: flag })),
+  setShowFollowUp: (flag) => set(() => ({ showFollowUp: flag })),  
+  setUserEndedChat: () => set(() => ({ hasUserEndedChat: true })),
+  setOpenRatingModal: (flag) => set(() => ({ openRatingModal: flag })),
   sethasUserNeedsToChooseContinueOrNot: (flag) => 
     set(() => ({ hasUserNeedsToChooseContinueOrNot: flag })),
+  setForceChatByUser: (flag) => set(() => ({ forceChatByUser: flag })), 
+  setUserExit: (flag) => set(() => ({ userExit: flag })), 
+  setCounterUserMessages : (c) => set(()=> ({counterUserMessages:c})),
   resetStore: () =>  
     set(() => ({
       messages: [],
       hasUserSentMessage: false,
       counterUserMessages: 0,
       hasUserEndedChat: false, 
-      hasUserNeedsToChooseContinueOrNot:false,
-      openRatingModal:false,
+      hasUserNeedsToChooseContinueOrNot: false,
+      openRatingModal: false,
+      showFollowUp: false,
+      forceChatByUser: false,
+      userExit:false,
+
     })),
 }));
 

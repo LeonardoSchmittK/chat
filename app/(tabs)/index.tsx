@@ -59,16 +59,20 @@ const statusBarHeight = StatusBar.currentHeight || 0;
 const navigationBarHeight = screenHeight - windowHeight - statusBarHeight;
 const screenWidth = Dimensions.get("window").width;
 
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isAndroid = /Android/.test(navigator.userAgent);
+const isPc = !isIos && !isAndroid
 
 const styles = StyleSheet.create({
   container: { 
     height: windowHeight + statusBarHeight + 20,
     padding: 16,
-    backgroundColor: "#f6f6f6"
+    backgroundColor: "#f6f6f6",
+
   },
   content:{
-    ...(Platform.OS === "web" ? { width: "100%" } : { width: "100%" }), 
-    marginHorizontal:"auto"
+    width:isPc ? "50%":"100%",
+    marginHorizontal:"auto",
   },
 
   cardHeader:{

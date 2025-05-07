@@ -3,10 +3,10 @@ import { Platform, Text } from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 
 interface RenderHTMLProps {
-  txt?: string; // Make txt optional
+  txt?: string; 
 }
 
-const RenderHTML: React.FC<RenderHTMLProps> = ({ txt = '' }) => { // Use default parameter
+const RenderHTML: React.FC<RenderHTMLProps> = ({ txt = '' }) => { 
   return (
     <>
       {Platform.OS === 'web' ? (
@@ -18,4 +18,4 @@ const RenderHTML: React.FC<RenderHTMLProps> = ({ txt = '' }) => { // Use default
   );
 };
 
-export default React.memo(RenderHTML); // Wrap with memo if needed
+export default React.memo(RenderHTML);
